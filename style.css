@@ -1,0 +1,671 @@
+:root {
+    --bg: #F4F6F8;
+    --card-bg: #FFFFFF;
+    --text-main: #212529;
+    --text-muted: #6C757D;
+    --primary: #C62828;
+    --primary-hover: #B71C1C;
+    --secondary: #FFB300;
+    --border-color: #E2E8F0;
+    --success: #2E7D32;
+    --radius: 16px;
+    --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header & Logo --- */
+.app-header {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.logo-icon { font-size: 1.4rem; }
+.user-stats { display: flex; gap: 1rem; }
+
+.stat-badge {
+    background: var(--bg);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* --- Navigatie --- */
+.app-nav {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    overflow-x: auto;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.nav-btn:hover { background: var(--bg); color: var(--text-main); }
+.nav-btn.active { background: var(--primary); color: #FFF; }
+
+.badge-counter {
+    background: var(--secondary);
+    color: #000;
+    padding: 0.1rem 0.4rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    margin-left: 4px;
+    font-weight: 700;
+}
+
+/* --- Layout & Tabs --- */
+.app-main {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    flex: 1;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.welcome-banner {
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    color: #FFF;
+    padding: 2rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.welcome-banner h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.welcome-banner p { opacity: 0.9; font-size: 0.95rem; line-height: 1.5; }
+
+/* --- Leertraject / Module Kaarten --- */
+.path-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.path-module-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    width: 100%;
+    box-shadow: var(--shadow);
+}
+
+.path-module-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--primary);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.lesson-node {
+    background: var(--bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.lesson-node:hover { transform: translateY(-2px); border-color: var(--primary); }
+.lesson-node.completed { border-color: var(--success); background: rgba(46, 125, 50, 0.03); }
+
+.lesson-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; color: var(--text-main); }
+.lesson-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.4; }
+
+.lesson-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--secondary);
+    border-top: 1px dashed var(--border-color);
+    padding-top: 0.5rem;
+}
+
+/* --- Skills / Vaardigheden Styling --- */
+.skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 1rem 0;
+}
+
+.skill-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.skill-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.skill-icon {
+    font-size: 2rem;
+    background: var(--bg);
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.skill-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-category {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+}
+
+.skill-info h3 {
+    margin: 2px 0 4px 0;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.skill-info p {
+    margin: 0 0 6px 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+}
+
+.skill-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+/* --- Quiz / Oefeningen --- */
+.quiz-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.quiz-progress-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.quiz-progress-fill {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.step-counter { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+
+.quiz-card-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.quiz-options { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+
+.quiz-option-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quiz-option-btn:hover:not(:disabled) { border-color: var(--primary); background: rgba(198, 40, 40, 0.03); }
+.quiz-option-btn.correct { background: #E8F5E9 !important; border-color: #2E7D32 !important; color: #2E7D32 !important; }
+.quiz-option-btn.incorrect { background: #FFEBEE !important; border-color: #C62828 !important; color: #C62828 !important; }
+
+.quiz-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+    background: var(--bg);
+    color: var(--text-main);
+    outline: none;
+}
+
+.quiz-input:focus { border-color: var(--primary); }
+
+.btn-primary {
+    background: var(--primary);
+    color: #FFF;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-secondary-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* --- Profiel & Statistieken --- */
+.profile-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.stat-card span { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+.stat-card h3 { font-size: 1.6rem; color: var(--primary); margin-top: 0.4rem; }
+
+/* --- Donkere Modus (Dark Mode) --- */
+body.dark-mode {
+    --bg: #121212;
+    --card-bg: #1E1E1E;
+    --text-main: #E0E0E0;
+    --text-muted: #A0A0A0;
+    --border-color: #2D2D2D;
+}
+
+/* --- Styling voor de Woordenlijst op de Lespagina --- */
+.vocab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.vocab-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.vocab-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.vocab-es {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.vocab-nl {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.audio-btn {
+    background: var(--bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.audio-btn:active {
+    transform: scale(0.92);
+    background: var(--border-color);
+}
+
+/* Draai het pijltje van de module om wanneer deze open staat */
+details.path-module-card[open] summary .module-arrow {
+    transform: rotate(180deg);
+}
+
+details.path-module-card summary::-webkit-details-marker {
+    display: none; /* Verbergt het standaard browser pijltje */
+}
+
+/* --- LEVEL SELECTOR & TOGGLE STYLES --- */
+.level-selector-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.level-tabs {
+    display: inline-flex;
+    background-color: var(--card-bg);
+    padding: 6px;
+    border-radius: var(--radius);
+    gap: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.level-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+}
+
+.level-tab.active {
+    background-color: var(--primary);
+    color: #FFF;
+}
+
+.level-tab.active .level-badge,
+.level-tab.active .level-title {
+    color: #FFF;
+}
+
+.level-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.level-badge.badge-soon {
+    color: #d97706;
+    background-color: #fef3c7;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.level-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.hidden-content {
+    display: none !important;
+}
+
+.active-content {
+    display: block;
+}
+
+.coming-soon-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.coming-soon-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+.coming-soon-card h2 { color: var(--primary); margin-bottom: 0.5rem; }
+.coming-soon-card p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+.coming-soon-list { list-style: none; text-align: left; max-width: 400px; margin: 0 auto; }
+.coming-soon-list li {
+    background: var(--bg);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+/* --- HEADER FIX & DROPDOWN STYLES --- */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 55%;
+}
+
+.user-level-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+.logo-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.level-dropdown {
+    background: var(--bg);
+    color: var(--primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 2px 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    margin-top: 2px;
+    max-width: 100%;
+    text-overflow: ellipsis;
+}
+
+.level-dropdown:focus {
+    border-color: var(--primary);
+}
+
+/* --- MODULE KAARTEN / ACCORDEONS --- */
+.module-accordion-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.module-header {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.accordion-icon {
+    font-size: 0.85rem;
+    color: var(--primary);
+}
+
+.module-content {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 1.25rem 1rem 1.25rem;
+}
+
+.path-lesson-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- COMING SOON CARD & UTILITIES --- */
+.hidden-content {
+    display: none !important;
+}
+
+.coming-soon-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-top: 1rem;
+}
+
+.coming-soon-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.coming-soon-card h2 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.coming-soon-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Goud (100%) */
+.lesson-card.completed-gold {
+    border: 2px solid #FFD700 !important;
+    background-color: rgba(255, 215, 0, 0.08) !important;
+}
+
+/* Zilver (80%) */
+.lesson-card.completed-silver {
+    border: 2px solid #C0C0C0 !important;
+    background-color: rgba(192, 192, 192, 0.08) !important;
+}
+
+/* Brons (60%) */
+.lesson-card.completed-bronze {
+    border: 2px solid #CD7F32 !important;
+    background-color: rgba(205, 127, 50, 0.08) !important;
+}
+
+
+/* Knoppen of vinkjes accentueren op basis van medaille */
+.badge-gold { background-color: #FFD700 !important; color: #fff; }
+.badge-silver { background-color: #C0C0C0 !important; color: #fff; }
+.badge-bronze { background-color: #CD7F32 !important; color: #fff; }
