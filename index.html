@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<script>
+  // Vang JavaScript-fouten op en toon ze op het scherm
+  window.onerror = function(msg, url, lineNo, columnNo, error) {
+    var errorBox = document.createElement('div');
+    errorBox.style.cssText = 'position:fixed; top:0; left:0; width:100%; background:red; color:white; padding:15px; z-index:99999; font-size:12px; word-break:break-all; box-sizing:border-box;';
+    errorBox.innerHTML = '<b>🚨 JS Fout:</b> ' + msg + '<br><b>Bestand:</b> ' + url + '<br><b>Regel:</b> ' + lineNo;
+    document.body.appendChild(errorBox);
+    return false;
+  };
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Hola! - Spaanse Cursus</title>
+    <link rel="stylesheet" href="style.css">
+<!-- Voeg deze toe in de <head> van index.html -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</head>
+<body>
+
+    <!-- HEADER -->
+<header class="app-header">
+    <div class="logo-container">
+        <span class="logo-icon">🇪🇸</span>
+        <div class="user-level-wrapper">
+            <span class="logo-text">¡Hola Jordy!</span>
+            <!-- LEVEL SELECTOR DROPDOWN -->
+            <select id="level-select" class="level-dropdown" onchange="switchLevel(this.value)">
+                <option value="a1">A1 - Beginner</option>
+                <option value="a2">A2 - Elementary</option>
+                <option value="b1">B1 - Intermediate</option>
+            </select>
+        </div>
+    </div>
+    <div class="user-stats">
+        <div class="stat-badge" id="dark-mode-toggle" style="cursor: pointer;" title="Wissel van thema">🌙</div>
+        <div class="stat-badge">🔥 <span id="streak-count">1</span></div>
+        <div class="stat-badge">⭐ <span id="xp-count">0</span></div>
+    </div>
+</header>
+
+
+<!-- NAVIGATION TABS -->
+<nav class="app-nav">
+    <button class="nav-btn active" data-tab="path">📚Lessen</button>
+    <button class="nav-btn" data-tab="skills">📖 Vaardigheden</button>
+    <button class="nav-btn" data-tab="srs">🧠 Herhaling<span class="badge-counter" id="srs-count">0</span></button>
+    <button class="nav-btn" data-tab="profile">🏆 Profiel</button>
+</nav>
+
+<!-- MAIN CONTENT CONTAINER -->
+<main class="app-main">
+
+    <!-- TAB 1: PAD & LESSEN -->
+    <section id="tab-path" class="tab-content active">
+        <div id="learning-path-container" class="path-container"></div>
+    </section>
+
+
+    <!-- TAB 2: VAARDIGHEDEN -->
+    <section id="tab-skills" class="tab-content">
+
+        <!-- A1 VAARDIGHEDEN -->
+        <div class="a1-level-wrapper">
+            <div class="welcome-banner">
+                <h2>Skills & Oefeningen (A1)</h2>
+                <p>Handige oefeningen voor alle vaardigheden in de A1 cursus.</p>
+            </div>
+            <div id="skills-container" class="skills-grid">
+                
+                <!-- Leesvaardigheid -->
+                <div class="skill-card" onclick="renderLeesvaardigheidLessen()">
+                    <div class="skill-icon">📖</div>
+                    <div class="skill-info">
+                        <span class="skill-category">Lezen</span>
+                        <h3>Leesvaardigheid</h3>
+                        <p>Oefen met het begrijpen van korte Spaanse teksten, bordjes en berichten.</p>
+                    </div>
+                </div>
+
+                <!-- Schrijfvaardigheid -->
+                <div class="skill-card" onclick="renderSchrijfvaardigheidLessen()">
+                    <div class="skill-icon">✍️</div>
+                    <div class="skill-info">
+                        <span class="skill-category">Schrijven</span>
+                        <h3>Schrijfvaardigheid</h3>
+                        <p>Oefen met het schrijven van Spaanse zinnen en berichten.</p>
+                    </div>
+                </div>
+
+                <!-- Grammatica -->
+                <div class="skill-card" onclick="renderGrammaticaLessen()">
+                    <div class="skill-icon">📝</div>
+                    <div class="skill-info">
+                        <span class="skill-category">Regels</span>
+                        <h3>Grammatica</h3>
+                        <p>Oefen met werkwoordsvervoegingen en correcte zinsstructuur.</p>
+                    </div>
+                </div>
+
+                <!-- Luisteren -->
+                <div class="skill-card" onclick="renderLuistervaardigheidLessen()">
+                    <div class="skill-icon">🎧</div>
+                    <div class="skill-info">
+                        <span class="skill-category">Luisteren</span>
+                        <h3>Luistervaardigheid</h3>
+                        <p>Train je gehoor met Spaanse uitspraak en luisteroefeningen.</p>
+                    </div>
+                </div>
+
+                <!-- Spreken -->
+                <div class="skill-card" onclick="alert('Binnenkort beschikbaar!')">
+                    <div class="skill-icon">🗣️</div>
+                    <div class="skill-info">
+                        <span class="skill-category">Spreken</span>
+                        <h3>Spreekvaardigheid</h3>
+                        <p>Oefen je Spaanse uitspraak en spreekoefeningen.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- A2 VAARDIGHEDEN -->
+        <div class="a2-level-wrapper hidden-content">
+            <div class="welcome-banner" style="background: #1e293b; color: white;">
+                <h2>Skills & Oefeningen (A2)</h2>
+                <p>Verdiep je vaardigheden met gevorderde A2 oefeningen.</p>
+            </div>
+            <div class="coming-soon-card">
+                <div class="coming-soon-icon">🚀</div>
+                <h2>A2 Vaardigheden zijn onderweg!</h2>
+                <p>We leggen de laatste hand aan de A2 luister-, schrijf- en grammaticamodules. Binnenkort beschikbaar!</p>
+            </div>
+        </div>
+
+    </section>
+
+
+
+                <!-- TAB 3: HERHALING (SRS) -->
+        <section id="tab-srs" class="tab-content">
+            <!-- Vaste Header & Uitleg -->
+            <div style="background: var(--primary); color: white; border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: var(--shadow); text-align: center;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;">Slimme Herhaling (SRS)</h3>
+                <p style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.75rem;">Herhaal eerder geleerde woorden op basis van het Spaced Repetition Systeem.</p>
+                <button onclick="toggleSrsInfo()" id="srs-info-toggle-btn" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.8rem; cursor: pointer; font-weight: 600;">
+                    ℹ️ Hoe werkt het box-systeem?
+                </button>
+                <div id="srs-info-box" style="display: none; text-align: left; background: rgba(0,0,0,0.15); margin-top: 0.75rem; padding: 0.75rem; border-radius: 8px; font-size: 0.8rem; line-height: 1.4;">
+                    <b>Box-systeem uitleg:</b><br>
+                    • <b>Box 1:</b> Nieuwe of fout beantwoorde woorden (dagelijks oefenen).<br>
+                    • <b>Box 2-4:</b> Goed antwoord? Dan schuift het door naar een langere interval.<br>
+                    • <b>Box 5:</b> Beheerst! Vaste plek in je langetermijngeheugen.<br>
+                    • ❌ <b>Fout = Terug naar Box 1</b>.
+                </div>
+            </div>
+
+            <!-- Oefenmodus Knoppen -->
+            <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); text-align: center;">
+                <h3 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 0.75rem;">🧠 Kies je oefenmodus</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <button onclick="startFlashcardSession('es-nl')" class="btn-secondary-outline" style="padding: 0.7rem; border-color: var(--primary); color: var(--primary); font-weight: 600; font-size: 0.9rem;">
+                        🇪🇸 → 🇳🇱 Spaans → Nederlands
+                    </button>
+                    <button onclick="startFlashcardSession('nl-es')" class="btn-secondary-outline" style="padding: 0.7rem; border-color: var(--primary); color: var(--primary); font-weight: 600; font-size: 0.9rem;">
+                        🇳🇱 → 🇪🇸 Nederlands → Spaans
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamisch container gebied voor actieve kaarten of 'geen woorden' melding -->
+            <div id="flashcard-active-area"></div>
+        </section>
+
+
+        <!-- TAB 4: PROFIEL -->
+        <section id="tab-profile" class="tab-content">
+            <div class="welcome-banner">
+                <h2>Jouw Profiel & Statistieken</h2>
+                <p>Bekijk je persoonlijke voortgang, behaalde medailles en algemene prestaties.</p>
+            </div>
+            <div id="profile-container"></div>
+        </section>
+
+        <!-- THEORIE SCHERM -->
+        <section id="tab-theory" class="tab-content">
+            <div class="quiz-header">
+                <button id="theory-quit-btn" class="btn-secondary-outline">Terug naar pad</button>
+                <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width: 100%;"></div></div>
+            </div>
+            <div class="quiz-card-container">
+                <h2 style="color: var(--primary); margin-bottom: 1rem;" id="lesson-theory-title">📖 Uitgebreide Theorie & Uitleg</h2>
+                <div id="lesson-theory-content" style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;"></div>
+            </div>
+        </section>
+
+        <!-- QUIZ / LES CONTAINER -->
+        <section id="tab-quiz" class="tab-content">
+            <div class="quiz-header">
+                <button id="quiz-quit-btn" class="btn-secondary-outline">Stoppen</button>
+                <div class="quiz-progress-bar">
+                    <div id="quiz-progress-fill" class="quiz-progress-fill"></div>
+                </div>
+                <span id="quiz-step-counter" class="step-counter">1 / 5</span>
+            </div>
+            <div class="quiz-card-container" id="quiz-card-box"></div>
+        </section>
+
+    </main>
+
+
+    <!-- SCRIPTS (Volgorde is belangrijk voor afhankelijkheden) -->
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/lessons.js"></script>
+    <script src="js/data/a1/module1-2.js"></script>
+<script src="js/data/a1/module3-4.js"></script>
+<script src="js/data/a1/module5-6.js"></script>
+<script src="js/data/a1/module7-8.js"></script>
+<script src="js/data/a1/module9-10.js"></script>
+<!-- Skills Data Bestanden -->
+<script src="js/data/a1/skill-leesvaardigheid.js"></script>
+<script src="js/data/a1/skill-grammatica.js"></script>
+<script src="js/data/a1/skill-luisteren.js"></script>
+<script src="js/data/a1/skill-schrijfvaardigheid.js"></script>
+<script src="js/data/a1/skill-spreken.js"></script>
+<!-- A2 Data Bestanden -->
+<script src="js/data/a2/module1.js"></script>
+<script src="js/data/a2/module2.js"></script>
+<script src="js/data/a2/module3.js"></script>
+<script src="js/data/a2/module4.js"></script>
+<script src="js/data/a2/module5.js"></script>
+<script src="js/data/a2/module6.js"></script>
+<script src="js/data/a2/module7.js"></script>
+<script src="js/data/a2/module8.js"></script>
+<script src="js/data/a2/module9.js"></script>
+<script src="js/data/a2/module10.js"></script>
+<script src="js/data/a2/module11.js"></script>
+
+
+
+
+
+    <script src="js/components/navigation.js"></script>
+    <script src="js/components/path.js"></script>
+    <script src="js/components/quiz.js"></script>
+ 
+<script src="js/components/srs.js"></script>
+    <script src="js/components/profile.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
