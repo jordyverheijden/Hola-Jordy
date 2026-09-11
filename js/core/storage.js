@@ -11,15 +11,51 @@ const defaultData = {
     srsCards: []
 };
 
+// Lokale cache om te zorgen dat de app snel blijft werken
+let localCache = { ...defaultData };
+let isCloudSynced = false;
+
 /**
- * Haalt de opgeslagen data op uit LocalStorage.
- * Valt terug op defaultData bij afwezigheid of fouten.
+ * Initialiseert de cloud-opslag zodra een gebruiker inlogt.
  */
-function getStoredData() {
+async function initializeCloudStorage() {
+    const user = typeof auth !== 'undefined' && auth.currentUser ? auth.currentUser : null;
+    if (user && typeof db !== 'undefined') {
+        try {
+            const docRef = db.collection('users').doc(user.uid);
+            const doc = await docRef.get();
+            if (doc.exists) {
+                const cloudData = doc.data();
+                localCache = {
+                    ...defaultData,
+                    ...cloudData,
+                    completedLessons: cloudData.completedLessons || [],
+                    srsCards: cloudData.srsCards || []
+                };
+            } else {
+                // Eerste keer inloggen, upload default/lokale data naar cloud
+                const localStored = localStorage.getItem(STORAGE_KEY);
+                if (localStored) {
+                    try {
+                        localCache = { ...defaultData, ...JSON.parse(localStored) };
+                    } catch(e) {}
+                }
+                await docRef.set(localCache);
+            }
+            isCloudSynced = true;
+        } catch (e) {
+            console.error("Fout bij laden van cloud data:", e);
+            localCache = getStoredDataLocalFallback();
+        }
+    } else {
+        localCache = getStoredDataLocalFallback();
+    }
+}
+
+function getStoredDataLocalFallback() {
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (!stored) return { ...defaultData };
-        
         const parsed = JSON.parse(stored);
         return {
             ...defaultData,
@@ -28,26 +64,43 @@ function getStoredData() {
             srsCards: parsed.srsCards || []
         };
     } catch (e) {
-        console.error("Fout bij ophalen van LocalStorage:", e);
         return { ...defaultData };
     }
 }
 
 /**
- * Slaat het data-object op in LocalStorage.
+ * Haalt de actuele data op (uit geheugen/cloud of lokale fallback).
  */
-function saveStoredData(data) {
+function getStoredData() {
+    return localCache;
+}
+
+/**
+ * Slaat het data-object op in LocalStorage én synchroniseert direct met Firebase Firestore.
+ */
+async function saveStoredData(data) {
+    localCache = { ...localCache, ...data };
+    
+    // Altijd lokaal opslaan als backup
     try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch (e) {
-        console.error("Fout bij opslaan in LocalStorage:", e);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(localCache));
+    } catch (e) {}
+
+    // Naar Firebase schrijven als de gebruiker is ingelogd
+    const user = typeof auth !== 'undefined' && auth.currentUser ? auth.currentUser : null;
+    if (user && typeof db !== 'undefined') {
+        try {
+            await db.collection('users').doc(user.uid).set(localCache, { merge: true });
+        } catch (e) {
+            console.error("Fout bij opslaan in cloud:", e);
+        }
     }
 }
 
 /**
  * Controleert en werkt de dagelijkse streak bij.
  */
-function checkAndUpdateStreak() {
+async function checkAndUpdateStreak() {
     let data = getStoredData();
     const today = new Date().toDateString();
     
@@ -68,21 +121,20 @@ function checkAndUpdateStreak() {
         data.lastActiveDate = today;
     }
     
-    saveStoredData(data);
+    await saveStoredData(data);
     updateHeaderStats();
 }
 
 /**
  * Registreert het voltooien van een les en slaat de hoogst behaalde score op.
  */
-function recordLessonCompletion(lessonId, scorePercentage = 100) {
+async function recordLessonCompletion(lessonId, scorePercentage = 100) {
     let data = getStoredData();
     
     if (!data.completedLessons.includes(lessonId)) {
         data.completedLessons.push(lessonId);
     }
     
-    // Houd de hoogst behaalde score bij per les
     if (!data.lessonScores) {
         data.lessonScores = {};
     }
@@ -95,7 +147,7 @@ function recordLessonCompletion(lessonId, scorePercentage = 100) {
     data.points = (data.points || 0) + Math.round(scorePercentage / 10);
     data.level = Math.floor(data.points / 100) + 1;
     
-    saveStoredData(data);
+    await saveStoredData(data);
     updateHeaderStats();
 }
 
@@ -108,7 +160,6 @@ function getMedalClass(score) {
     if (score >= 60) return { key: 'bronze', class: 'completed-bronze', icon: '🥉' };
     return { key: 'none', class: '', icon: '✅' };
 }
-
 
 /**
  * Geeft de algemene voortgang van de gebruiker terug.
@@ -125,12 +176,8 @@ function getDueSrsCards() {
     const now = new Date();
     
     return data.srsCards.filter(card => {
-        // Controleer of de kaart in Box 1 zit
         const isBox1 = card.box === 1 || card.repetitions === 0 || card.interval === 1;
-        
-        // Controleer of de reviewdatum verstreken/vandaag is
         const isDue = !card.nextReview || new Date(card.nextReview) <= now;
-
         return isBox1 || isDue;
     });
 }
@@ -142,8 +189,6 @@ function updateHeaderStats() {
     const data = getStoredData();
     const streakEl = document.getElementById('streak-count');
     const xpEl = document.getElementById('xp-count');
-    
-    // Zoekt het badge-element op (via ID of selector)
     const srsBadgeEl = document.getElementById('srs-count') 
                     || document.querySelector('#nav-srs .badge') 
                     || document.querySelector('button[onclick*="srs"] span');
@@ -151,7 +196,6 @@ function updateHeaderStats() {
     if (streakEl) streakEl.innerText = data.streak || 1;
     if (xpEl) xpEl.innerText = data.points || 0;
 
-    // Bijwerken van de herhalingsbadge
     if (srsBadgeEl) {
         const dueCards = getDueSrsCards();
         srsBadgeEl.innerText = dueCards.length;
@@ -162,17 +206,14 @@ function updateHeaderStats() {
    SRS (Spaced Repetition System) Logica
    ========================================== */
 
-/**
- * Voegt een nieuwe kaart toe aan het SRS-systeem of werkt een bestaande bij.
- */
-function addOrUpdateSrsCard(word, translation, difficulty = 'medium') {
+async function addOrUpdateSrsCard(word, translation, difficulty = 'medium') {
     let data = getStoredData();
     const now = new Date();
     
     let cardIndex = data.srsCards.findIndex(c => c.word.toLowerCase() === word.toLowerCase());
     
     if (cardIndex > -1) {
-        updateSrsCard(word, difficulty);
+        await updateSrsCard(word, difficulty);
     } else {
         const newCard = {
             id: 'srs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
@@ -185,16 +226,13 @@ function addOrUpdateSrsCard(word, translation, difficulty = 'medium') {
             nextReview: now.toISOString()
         };
         data.srsCards.push(newCard);
-        saveStoredData(data);
+        await saveStoredData(data);
     }
     
     updateHeaderStats();
 }
 
-/**
- * Werkt de herhalingsinterval bij op basis van het antwoord (SM-2 algoritme).
- */
-function updateSrsCard(word, performance) {
+async function updateSrsCard(word, performance) {
     let data = getStoredData();
     let card = data.srsCards.find(c => c.word.toLowerCase() === word.toLowerCase());
     
@@ -231,6 +269,6 @@ function updateSrsCard(word, performance) {
     nextDate.setDate(nextDate.getDate() + card.interval);
     card.nextReview = nextDate.toISOString();
 
-    saveStoredData(data);
+    await saveStoredData(data);
     updateHeaderStats();
 }
