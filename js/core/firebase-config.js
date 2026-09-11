@@ -1,14 +1,14 @@
-// Firebase Configuratie & Initialisatie
 const firebaseConfig = {
-  apiKey: "JOUW_API_KEY_HIER",
-  authDomain: "jouw-project.firebaseapp.com",
-  projectId: "jouw-project-id",
-  storageBucket: "jouw-project.appspot.com",
-  messagingSenderId: "JOUW_SENDER_ID",
-  appId: "JOUW_APP_ID"
+  apiKey: "AIzaSyAhdcT_rKhd9_P96oqLYQnSYA7nRUIsRGk",
+  authDomain: "hola-jordy.firebaseapp.com",
+  projectId: "hola-jordy",
+  storageBucket: "hola-jordy.firebasestorage.app",
+  messagingSenderId: "752435616332",
+  appId: "1:752435616332:web:1ba7bd210f0bc79e1c72e9",
+  measurementId: "G-2Z3CPFS9FY"
 };
 
-// Initialiseer Firebase
+// Initialiseer Firebase (compat-modus)
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
