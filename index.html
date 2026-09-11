@@ -16,27 +16,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Hola! - Spaanse Cursus</title>
     <link rel="stylesheet" href="style.css">
-<!-- Voeg deze toe in de <head> van index.html -->
+<!-- Canvas Confetti -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<!-- Firebase App (core) -->
+
+<!-- Firebase App & Services (Compat SDK's) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<!-- Firebase Auth & Firestore -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<!-- Jouw Firebase Config (moet ná de SDK's komen) -->
+<!-- Jouw Firebase Configuratie -->
 <script src="js/core/firebase-config.js"></script>
 
 </head>
 <body>
-<!-- Inlogscherm Container -->
-<div id="auth-screen" style="display: flex; flex-direction: column; max-width: 300px; margin: 50px auto; gap: 10px;">
-  <h2>Welkom bij Hola-Jordy 🇪🇸</h2>
-  <input type="email" id="auth-email" placeholder="E-mailadres" style="padding: 8px;">
-  <input type="password" id="auth-password" placeholder="Wachtwoord" style="padding: 8px;">
-  <button id="login-btn" style="padding: 10px; background: #28a745; color: white; border: none; cursor: pointer;">Inloggen</button>
-  <button id="register-btn" style="padding: 10px; background: #007bff; color: white; border: none; cursor: pointer;">Account aanmaken</button>
-  <p id="auth-error" style="color: red; font-size: 14px;"></p>
-</div>
+
+    <!-- INLOGSCHEM (Wordt automatisch verborgen zodra ingelogd) -->
+    <div id="auth-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color, #f8fafc); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: var(--card-bg, #ffffff); padding: 2rem; border-radius: var(--radius, 12px); box-shadow: var(--shadow, 0 4px 6px rgba(0,0,0,0.1)); width: 100%; max-width: 380px; text-align: center; border: 1px solid var(--border-color, #e2e8f0);">
+            <span style="font-size: 3rem;">🇪🇸</span>
+            <h2 style="color: var(--primary, #2563eb); margin: 0.5rem 0 1.5rem 0;">¡Hola Jordy!</h2>
+            <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-color, #1e293b);">E-mailadres</label>
+                    <input type="email" id="auth-email" placeholder="jouw@email.nl" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; margin-top: 0.25rem; box-sizing: border-box;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-color, #1e293b);">Wachtwoord</label>
+                    <input type="password" id="auth-password" placeholder="••••••••" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; margin-top: 0.25rem; box-sizing: border-box;">
+                </div>
+                <button id="login-btn" style="width: 100%; padding: 0.75rem; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 0.5rem;">Inloggen</button>
+                <button id="register-btn" style="width: 100%; padding: 0.75rem; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Account aanmaken</button>
+                <p id="auth-error" style="color: #ef4444; font-size: 0.85rem; text-align: center; margin: 0; min-height: 1.2rem;"></p>
+            </div>
+        </div>
+    </div>
 
     <!-- HEADER -->
 <header class="app-header">
