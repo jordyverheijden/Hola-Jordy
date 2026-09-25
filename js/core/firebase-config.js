@@ -12,3 +12,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+// 🚀 Zorg ervoor dat de gebruiker bij elke pagina-refresh opnieuw moet inloggen:
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+  .catch((error) => {
+    console.error("Fout bij instellen van sessie-persistentie:", error);
+  });
