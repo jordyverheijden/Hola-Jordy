@@ -3,52 +3,75 @@
 document.addEventListener('DOMContentLoaded', () => {
     setupAuthListeners();
     setupDarkMode();
+    setupForgotPassword();
 });
 
 // Firebase Authenticatie status afhandeling
 function setupAuthListeners() {
-    const authScreen = document.getElementById('auth-screen');
-    const emailInput = document.getElementById('auth-email');
-    const passwordInput = document.getElementById('auth-password');
-    const loginBtn = document.getElementById('login-btn');
-    const registerBtn = document.getElementById('register-btn');
-    const errorField = document.getElementById('auth-error');
+    const loginContainer = document.getElementById('login-container');
+    const appContainer = document.getElementById('app-container');
+    
+    const emailInput = document.getElementById('login-email');
+    const passwordInput = document.getElementById('login-password');
+    const loginBtn = document.getElementById('login-submit-btn');
+    const registerBtn = document.getElementById('register-toggle-btn');
+    const errorField = document.getElementById('auth-error-message');
 
     if (loginBtn) {
-        loginBtn.addEventListener('click', async () => {
+        loginBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
             try {
-                if (errorField) errorField.textContent = '';
-                await auth.signInWithEmailAndPassword(emailInput.value, passwordInput.value);
+                if (errorField) {
+                    errorField.textContent = '';
+                    errorField.style.display = 'none';
+                }
+                await firebase.auth().signInWithEmailAndPassword(emailInput.value, passwordInput.value);
             } catch (error) {
-                if (errorField) errorField.textContent = error.message;
+                if (errorField) {
+                    errorField.textContent = error.message;
+                    errorField.style.display = 'block';
+                }
             }
         });
     }
 
     if (registerBtn) {
-        registerBtn.addEventListener('click', async () => {
+        registerBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
             try {
-                if (errorField) errorField.textContent = '';
-                await auth.createUserWithEmailAndPassword(emailInput.value, passwordInput.value);
+                if (errorField) {
+                    errorField.textContent = '';
+                    errorField.style.display = 'none';
+                }
+                await firebase.auth().createUserWithEmailAndPassword(emailInput.value, passwordInput.value);
             } catch (error) {
-                if (errorField) errorField.textContent = error.message;
+                if (errorField) {
+                    errorField.textContent = error.message;
+                    errorField.style.display = 'block';
+                }
             }
         });
     }
 
-    if (typeof auth !== 'undefined') {
-        auth.onAuthStateChanged(async (user) => {
+    if (typeof firebase.auth !== 'undefined') {
+        firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                if (authScreen) authScreen.style.display = 'none';
+                // Wel ingelogd: Verberg inlogscherm, toon de app container
+                if (loginContainer) loginContainer.style.display = 'none';
+                if (appContainer) appContainer.style.display = 'block';
+                
                 console.log('Ingelogd als:', user.email);
-                await initializeCloudStorage();
+                if (typeof initializeCloudStorage === 'function') await initializeCloudStorage();
                 initializeApp();
             } else {
-                if (authScreen) authScreen.style.display = 'flex';
+                // Niet ingelogd: Toon inlogscherm, verberg de app container
+                if (loginContainer) loginContainer.style.display = 'flex';
+                if (appContainer) appContainer.style.display = 'none';
             }
         });
     } else {
         // Fallback als Firebase niet geladen is
+        if (appContainer) appContainer.style.display = 'block';
         initializeApp();
     }
 }
@@ -89,7 +112,8 @@ function setupDarkMode() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+// Wachtwoord vergeten functionaliteit
+function setupForgotPassword() {
     const forgotLink = document.getElementById('forgot-password-link');
     
     if (forgotLink) {
@@ -105,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                // Firebase methode om een herstelmail te sturen
                 await firebase.auth().sendPasswordResetEmail(email);
                 alert('Er is een e-mail verzonden om je wachtwoord te resetten. Controleer ook je spamfolder!');
             } catch (error) {
@@ -121,4 +144,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+}
