@@ -1,4 +1,4 @@
-// js/app.js
+// // js/app.js
 
 document.addEventListener('DOMContentLoaded', () => {
     setupAuthListeners();
@@ -82,7 +82,7 @@ async function initializeApp() {
     if (typeof setupNavigation === 'function') setupNavigation();
     if (typeof renderLearningPath === 'function') renderLearningPath();
     
-    // Render de vaardigheden (met veiligheidscheck)
+    // Render de vaardigheden (inclusief Lezen, Luisteren, Schrijven en Spreken)
     if (typeof renderSkillsTab === 'function') {
         renderSkillsTab();
     }
@@ -90,6 +90,9 @@ async function initializeApp() {
     if (typeof renderSRSTab === 'function') renderSRSTab();
     if (typeof renderProfileTab === 'function') renderProfileTab();
     if (typeof updateHeaderStats === 'function') updateHeaderStats();
+
+    // Initialiseer event listeners voor de Web Speech API (Spreekvaardigheid)
+    setupSpeechRecognitionHandler();
 }
 
 // Dark Mode Instellingen
@@ -144,4 +147,61 @@ function setupForgotPassword() {
             }
         });
     }
+}
+
+// ==========================================
+// SPEECH RECOGNITION HANDLER (Voor Spreekvaardigheid)
+// ==========================================
+function setupSpeechRecognitionHandler() {
+    // Luistert naar interacties op knoppen met de id 'start-speech-btn' in de spreek-interface
+    document.addEventListener("click", function(event) {
+        if (event.target && event.target.id === "start-speech-btn") {
+            const targetText = event.target.getAttribute("data-target");
+            startSpraakHerkenning(targetText, (isJuist, gehoord) => {
+                const resultaatDiv = document.getElementById("speech-result");
+                if (resultaatDiv) {
+                    if (isJuist) {
+                        resultaatDiv.innerHTML = `<span style="color: green;">✔ Correct! Je zei: "${gehoord}"</span>`;
+                    } else {
+                        resultaatDiv.innerHTML = `<span style="color: red;">✖ Niet helemaal. Gehoord: "${gehoord}". Probeer het nog eens!</span>`;
+                    }
+                }
+            });
+        }
+    });
+}
+
+function startSpraakHerkenning(targetText, callbackResultaat) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+        alert("Jouw browser ondersteunt helaas geen spraakherkenning. Gebruik Google Chrome, Safari of Edge.");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-ES'; // Stel de taal in op Spaans (Spanje)
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    console.log("Microfoon geactiveerd, luistert naar spraak...");
+
+    recognition.onresult = function(event) {
+        const gesprokenTekst = event.results[0][0].transcript.trim();
+        console.log("Gebruiker sprak:", gesprokenTekst);
+
+        // Maak tekst schoon (verwijder hoofdletters, punten en Spaanse uitroeptekens/vraagtekens voor een eerlijke vergelijking)
+        const cleanTarget = targetText.toLowerCase().replace(/[¡!¿?.,]/g, '');
+        const cleanGesproken = gesprokenTekst.toLowerCase().replace(/[¡!¿?.,]/g, '');
+
+        const isJuist = cleanGesproken === cleanTarget;
+        callbackResultaat(isJuist, gesprokenTekst);
+    };
+
+    recognition.onerror = function(event) {
+        console.error("Spraakfout opgetreden:", event.error);
+        alert("Er ging iets mis met de microfoon: " + event.error);
+    };
+
+    recognition.start();
 }
