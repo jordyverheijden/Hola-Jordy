@@ -48,22 +48,22 @@ function switchTab(tabName) {
         activeTargetContent.classList.add('active');
     }
 
-    // 3. Specifieke tab-logica uitvoeren bij het openen
+    // 3. Specifieke tab-logica uitvoeren bij het openen (aangepast naar renderSkillsTab voor consistentie)
     if (tabName === 'path') {
         if (typeof renderLearningPath === 'function') {
             renderLearningPath();
         }
     } else if (tabName === 'skills') {
-        if (typeof renderSkills === 'function') {
-            renderSkills();
+        if (typeof renderSkillsTab === 'function') {
+            renderSkillsTab();
         }
     } else if (tabName === 'srs') {
-        if (typeof renderSRS === 'function') {
-            renderSRS();
+        if (typeof renderSRSTab === 'function') {
+            renderSRSTab();
         }
     } else if (tabName === 'profile') {
-        if (typeof renderProfile === 'function') {
-            renderProfile();
+        if (typeof renderProfileTab === 'function') {
+            renderProfileTab();
         }
     }
 
@@ -104,8 +104,6 @@ function switchLevel(level) {
     }
 }
 
-
-
 function updateLevelVisibility() {
     const activeLevel = window.currentLevel || 'a1';
 
@@ -129,11 +127,8 @@ function updateLevelVisibility() {
     }
 }
 
-
+// Alleen event listeners voor knoppen die specifiek bij navigatie/quiz-stop horen
 document.addEventListener('DOMContentLoaded', () => {
-    initializeApp();
-    setupDarkMode();
-
     // Event listener voor de Stoppen / Terug-knoppen
     const quitBtn = document.getElementById('quiz-quit-btn');
     if (quitBtn) {
