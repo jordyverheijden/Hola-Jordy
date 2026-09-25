@@ -23,7 +23,7 @@ function addWordsToSRS(wordList) {
     wordList.forEach(wordObj => {
         if (!wordObj.es || !wordObj.nl) return;
 
-        // Controleer of dit woord al in de SRS-lijst staat (op basis van Spaanse woord, case-insensitive)
+        // Controleer of dit woord al in de SRS-lijst staat (op basis van Spaans woord, case-insensitive)
         const exists = data.srsCards.some(card => 
             (card.es || '').toLowerCase().trim() === (wordObj.es || '').toLowerCase().trim()
         );
@@ -44,8 +44,6 @@ function addWordsToSRS(wordList) {
         saveStoredData(data);
     }
 }
-
-
 
 function renderSRSTab() {
     const data = typeof getStoredData === 'function' ? getStoredData() : { srsCards: [] };
@@ -87,8 +85,6 @@ function toggleSrsInfo() {
     }
 }
 
-
-
 function startFlashcardSession(mode) {
     currentSrsMode = mode;
     currentSrsIndex = 0;
@@ -119,7 +115,6 @@ function renderFlashcard() {
     const questionText = currentSrsMode === 'es-nl' ? esText : nlText;
     const answerText = currentSrsMode === 'es-nl' ? nlText : esText;
     
-    // Correcte labels per oefenmodus
     const promptLabel = currentSrsMode === 'es-nl' 
         ? `Vertaal vanuit het Spaans:<br><span style="color: var(--primary); font-size: 1.6rem; font-weight: 800; display: inline-block; margin-top: 0.5rem;">${questionText}</span>` 
         : `Vertaal vanuit het Nederlands:<br><span style="color: var(--primary); font-size: 1.6rem; font-weight: 800; display: inline-block; margin-top: 0.5rem;">${questionText}</span>`;
@@ -151,7 +146,6 @@ function renderFlashcard() {
     `;
 }
 
-
 function revealFlashcardAnswer() {
     isAnswerRevealed = true;
     renderFlashcard();
@@ -160,8 +154,8 @@ function revealFlashcardAnswer() {
 function handleFlashcardResult(isCorrect) {
     const card = currentSrsCards[currentSrsIndex];
     
-    if (typeof updateWordSRS === 'function' && card.es) {
-        updateWordSRS(card.es, isCorrect, currentSrsMode, card.nl);
+    if (card && card.es) {
+        updateWordSRS(card.es, isCorrect);
     }
 
     currentSrsIndex++;
