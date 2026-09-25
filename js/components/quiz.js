@@ -3,6 +3,7 @@ let currentQuizIndex = 0;
 let currentQuizScore = 0;
 let totalMistakesCount = 0;
 let currentQuestionAttempts = 1;
+let currentLessonData = null; // Veilig gedefinieerd
 
 function triggerFullscreenConfetti() {
     if (typeof confetti === 'function') {
@@ -31,7 +32,6 @@ function normalizeAccents(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
 
-// Voor gewone typvragen (haalt leestekens weg en dubbele spaties, maar BEHOORT spaties tussen woorden)
 function normalizeSentence(text) {
     if (!text) return '';
     return text
@@ -44,24 +44,17 @@ function normalizeSentence(text) {
 function normalizeScramble(text) {
     if (!text) return '';
     return text
-        .toLowerCase() // Dít zorgt ervoor dat 'Me' en 'me' aan elkaar gelijk zijn
+        .toLowerCase()
         .replace(/[.,?!¡¿]/g, '')
         .replace(/\s+/g, '');
 }
 
-
-
-
-
-
 function startQuizSession(lesson) {
-    window.currentLessonId = lesson.id; // <-- Hier toevoegen
+    window.currentLessonId = lesson.id;
     currentLessonData = lesson;
     currentQuizIndex = 0;
     currentQuizScore = 0;
     totalMistakesCount = 0;
-    // ...
-
 
     const rawQuizzes = lesson.quizzes || lesson.questionBank || [];
     
@@ -72,7 +65,9 @@ function startQuizSession(lesson) {
 
     currentQuizQueue = [...rawQuizzes].sort(() => Math.random() - 0.5);
 
-    switchTab('quiz');
+    if (typeof switchTab === 'function') {
+        switchTab('quiz');
+    }
     renderQuizStep();
 }
 
@@ -80,15 +75,11 @@ function renderQuizStep() {
     const box = document.getElementById('quiz-card-box');
     if (!box) return;
 
-    // Koppel de stop- en theorie-knoppen
     const quitBtn = document.getElementById('quiz-quit-btn');
     if (quitBtn) quitBtn.onclick = quitQuiz;
 
     const theoryQuitBtn = document.getElementById('theory-quit-btn');
     if (theoryQuitBtn) theoryQuitBtn.onclick = quitQuiz;
-
-    // ... rest van renderQuizStep code ...
-
 
     if (currentQuizIndex >= currentQuizQueue.length) {
         finishQuiz();
@@ -113,7 +104,7 @@ function renderQuizStep() {
     `;
     const inputArea = document.getElementById('quiz-options-area');
 
-     // ==========================================
+    // ==========================================
     // SCHRIJFVAARDIGHEID LOGICA
     // ==========================================
     if (qData.type === 'writing') {
@@ -121,24 +112,21 @@ function renderQuizStep() {
         writingBox.style.cssText = 'display: flex; flex-direction: column; gap: 1rem;';
 
         if (qData.hint) {
-    const hintBtn = document.createElement('button');
-    hintBtn.type = 'button';
-    hintBtn.style.cssText = 'background: none; border: none; color: var(--text-muted); font-size: 0.85rem; padding: 0; margin-bottom: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;';
-    hintBtn.innerHTML = '💡 <span>Toon hint</span>';
-    
-    hintBtn.onclick = function() {
-        this.innerHTML = `💡 <i>${qData.hint}</i>`;
-        this.style.cursor = 'default';
-        this.onclick = null; // Voorkomt dubbel klikken
-    };
-
-    writingBox.appendChild(hintBtn);
-}
-
+            const hintBtn = document.createElement('button');
+            hintBtn.type = 'button';
+            hintBtn.style.cssText = 'background: none; border: none; color: var(--text-muted); font-size: 0.85rem; padding: 0; margin-bottom: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;';
+            hintBtn.innerHTML = '💡 <span>Toon hint</span>';
+            
+            hintBtn.onclick = function() {
+                this.innerHTML = `💡 <i>${qData.hint}</i>`;
+                this.style.cursor = 'default';
+                this.onclick = null;
+            };
+            writingBox.appendChild(hintBtn);
+        }
 
         const textArea = document.createElement('textarea');
         textArea.id = 'writing-input-field';
-
         textArea.className = 'quiz-input';
         textArea.rows = 3;
         textArea.placeholder = 'Typ hier je Spaanse zin...';
@@ -162,7 +150,6 @@ function renderQuizStep() {
             textArea.disabled = true;
             submitBtn.style.display = 'none';
 
-            // Controleer trefwoorden als qData.keywords aanwezig is
             let keywordFeedback = '';
             if (qData.keywords && Array.isArray(qData.keywords)) {
                 const cleanInput = normalizeAccents(val);
@@ -211,161 +198,155 @@ function renderQuizStep() {
         return;
     }
 
-
-
+    // ==========================================
+    // MULTIPLE CHOICE / LEZEN / LUISTEREN
+    // ==========================================
     if (qData.type === 'multiple-choice' || qData.type === 'reading' || qData.type === 'listening' || (qData.options && qData.type !== 'word-scramble')) {
         const optionsDiv = document.createElement('div');
         optionsDiv.className = 'quiz-options';
         
-                        if (qData.type === 'listening') {
-    const audioBox = document.createElement('div');
-    audioBox.style.cssText = 'background: rgba(198, 40, 40, 0.05); padding: 1.25rem; border-radius: 10px; margin-bottom: 1.25rem; border: 1px solid var(--primary); text-align: center;';
-    
-    const textMatch = qData.question.match(/'([^']+)'/);
-    const textToPlay = textMatch ? textMatch[1] : (qData.correctAnswer || (qData.options ? qData.options[qData.correctIndex] : ''));
-
-    // Titel
-    const title = document.createElement('p');
-    title.style.cssText = 'font-size: 0.95rem; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-main);';
-    title.innerText = '🎧 Luistertoets: Typ of kies het juiste antwoord';
-    audioBox.appendChild(title);
-
-    // Audio Play Knop
-    const playBtn = document.createElement('button');
-    playBtn.className = 'btn-primary';
-    playBtn.style.cssText = 'background: var(--primary); padding: 0.7rem 1.4rem; font-size: 1rem; margin-bottom: 0.75rem; cursor: pointer;';
-    playBtn.innerText = '🔊 Beluister Audio';
-    playBtn.addEventListener('click', () => {
-        playSpanishAudio(textToPlay);
-    });
-    audioBox.appendChild(playBtn);
-
-    // Hint / Spiekbriefje Container
-    const hintContainer = document.createElement('div');
-    
-    const hintBtn = document.createElement('button');
-    hintBtn.className = 'btn-secondary-outline';
-    hintBtn.style.cssText = 'font-size: 0.8rem; padding: 0.3rem 0.6rem; background: var(--card-bg); cursor: pointer;';
-    hintBtn.innerText = '👁️ Toon tekst (Spiekbriefje)';
-    
-    const hintDiv = document.createElement('div');
-    hintDiv.style.cssText = 'display: none; background: var(--card-bg); padding: 0.6rem; border-radius: 6px; border: 1px dashed var(--border-color); font-style: italic; color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;';
-    hintDiv.innerText = `"${textToPlay}"`;
-
-    // Toggle logica veilig via event listener
-    hintBtn.addEventListener('click', () => {
-        const isHidden = hintDiv.style.display === 'none';
-        hintDiv.style.display = isHidden ? 'block' : 'none';
-        hintBtn.innerText = isHidden ? '🙈 Verberg tekst' : '👁️ Toon tekst (Spiekbriefje)';
-    });
-
-    hintContainer.appendChild(hintBtn);
-    hintContainer.appendChild(hintDiv);
-    audioBox.appendChild(hintContainer);
-
-    inputArea.appendChild(audioBox);
-
-    // Open luistervraag logica (geen options)
-    if (!qData.options) {
-        const inputField = document.createElement('input');
-        inputField.type = 'text';
-        inputField.className = 'quiz-input';
-        inputField.placeholder = 'Typ wat je gehoord hebt...';
-        inputField.style.marginTop = '1rem';
-
-        const submitBtn = document.createElement('button');
-        submitBtn.className = 'btn-primary';
-        submitBtn.style.cssText = 'width: 100%; margin-top: 0.75rem; cursor: pointer;';
-        submitBtn.innerText = 'Controleer antwoord';
-
-        submitBtn.addEventListener('click', () => {
-            const val = inputField.value.trim();
-            const correctVal = (qData.correctAnswer || '').trim();
-            const isCorrect = (val.toLowerCase() === correctVal.toLowerCase());
-
-            if (isCorrect) {
-                submitBtn.disabled = true;
-                inputField.disabled = true;
-                inputField.style.borderColor = 'var(--success)';
-                
-                const earnedPoints = (currentQuestionAttempts === 1) ? 1 : 0.5;
-                currentQuizScore += earnedPoints;
-
-                showSuccessPopup();
-            } else {
-                if (currentQuestionAttempts === 1) {
-                    currentQuestionAttempts = 2;
-                    totalMistakesCount++;
-                    showFirstMistakeTip(qData, val);
-                } else {
-                    submitBtn.disabled = true;
-                    inputField.disabled = true;
-                    inputField.style.borderColor = 'var(--primary)';
-
-                    totalMistakesCount++;
-                    showMistakeFeedback(qData, qData.correctAnswer);
-                }
-            }
-        });
-
-        inputArea.appendChild(inputField);
-        inputArea.appendChild(submitBtn);
-        return; 
-    }
-}
-
-
-                
-
-
-
-        qData.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'quiz-option-btn';
-            btn.innerText = opt;
-            btn.disabled = false;
+        if (qData.type === 'listening') {
+            const audioBox = document.createElement('div');
+            audioBox.style.cssText = 'background: rgba(198, 40, 40, 0.05); padding: 1.25rem; border-radius: 10px; margin-bottom: 1.25rem; border: 1px solid var(--primary); text-align: center;';
             
-            btn.addEventListener('click', () => {
-                const correctVal = (qData.correctAnswer || qData.options[qData.correctIndex] || '').trim().toLowerCase();
-                const isCorrect = (opt.trim().toLowerCase() === correctVal) || (qData.correctIndex === idx);
-                
-                if (isCorrect) {
-                    optionsDiv.querySelectorAll('button').forEach((b, bIdx) => {
-                        b.disabled = true;
-                        if (b.innerText.trim().toLowerCase() === correctVal || bIdx === qData.correctIndex) {
-                            b.classList.add('correct');
-                        }
-                    });
+            const textMatch = qData.question.match(/'([^']+)'/);
+            const textToPlay = textMatch ? textMatch[1] : (qData.correctAnswer || (qData.options ? qData.options[qData.correctIndex] : ''));
 
-                    const earnedPoints = (currentQuestionAttempts === 1) ? 1 : 0.5;
-                    currentQuizScore += earnedPoints;
+            const title = document.createElement('p');
+            title.style.cssText = 'font-size: 0.95rem; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-main);';
+            title.innerText = '🎧 Luistertoets: Typ of kies het juiste antwoord';
+            audioBox.appendChild(title);
 
-                    showSuccessPopup();
-                } else {
-                    if (currentQuestionAttempts === 1) {
-                        currentQuestionAttempts = 2;
-                        btn.classList.add('incorrect');
-                        btn.disabled = true;
-                        totalMistakesCount++;
-                        showFirstMistakeTip(qData, opt);
+            const playBtn = document.createElement('button');
+            playBtn.className = 'btn-primary';
+            playBtn.style.cssText = 'background: var(--primary); padding: 0.7rem 1.4rem; font-size: 1rem; margin-bottom: 0.75rem; cursor: pointer;';
+            playBtn.innerText = '🔊 Beluister Audio';
+            playBtn.addEventListener('click', () => {
+                playSpanishAudio(textToPlay);
+            });
+            audioBox.appendChild(playBtn);
+
+            const hintContainer = document.createElement('div');
+            const hintBtn = document.createElement('button');
+            hintBtn.className = 'btn-secondary-outline';
+            hintBtn.style.cssText = 'font-size: 0.8rem; padding: 0.3rem 0.6rem; background: var(--card-bg); cursor: pointer;';
+            hintBtn.innerText = '👁️ Toon tekst (Spiekbriefje)';
+            
+            const hintDiv = document.createElement('div');
+            hintDiv.style.cssText = 'display: none; background: var(--card-bg); padding: 0.6rem; border-radius: 6px; border: 1px dashed var(--border-color); font-style: italic; color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;';
+            hintDiv.innerText = `"${textToPlay}"`;
+
+            hintBtn.addEventListener('click', () => {
+                const isHidden = hintDiv.style.display === 'none';
+                hintDiv.style.display = isHidden ? 'block' : 'none';
+                hintBtn.innerText = isHidden ? '🙈 Verberg tekst' : '👁️ Toon tekst (Spiekbriefje)';
+            });
+
+            hintContainer.appendChild(hintBtn);
+            hintContainer.appendChild(hintDiv);
+            audioBox.appendChild(hintContainer);
+            inputArea.appendChild(audioBox);
+
+            if (!qData.options) {
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.className = 'quiz-input';
+                inputField.placeholder = 'Typ wat je gehoord hebt...';
+                inputField.style.marginTop = '1rem';
+
+                const submitBtn = document.createElement('button');
+                submitBtn.className = 'btn-primary';
+                submitBtn.style.cssText = 'width: 100%; margin-top: 0.75rem; cursor: pointer;';
+                submitBtn.innerText = 'Controleer antwoord';
+
+                submitBtn.addEventListener('click', () => {
+                    const val = inputField.value.trim();
+                    const correctVal = (qData.correctAnswer || '').trim();
+                    const isCorrect = (val.toLowerCase() === correctVal.toLowerCase());
+
+                    if (isCorrect) {
+                        submitBtn.disabled = true;
+                        inputField.disabled = true;
+                        inputField.style.borderColor = 'var(--success)';
+                        
+                        const earnedPoints = (currentQuestionAttempts === 1) ? 1 : 0.5;
+                        currentQuizScore += earnedPoints;
+
+                        showSuccessPopup();
                     } else {
+                        if (currentQuestionAttempts === 1) {
+                            currentQuestionAttempts = 2;
+                            totalMistakesCount++;
+                            showFirstMistakeTip(qData, val);
+                        } else {
+                            submitBtn.disabled = true;
+                            inputField.disabled = true;
+                            inputField.style.borderColor = 'var(--primary)';
+
+                            totalMistakesCount++;
+                            showMistakeFeedback(qData, qData.correctAnswer);
+                        }
+                    }
+                });
+
+                inputArea.appendChild(inputField);
+                inputArea.appendChild(submitBtn);
+                return; 
+            }
+        }
+
+        if (qData.options) {
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option-btn';
+                btn.innerText = opt;
+                btn.disabled = false;
+                
+                btn.addEventListener('click', () => {
+                    const correctVal = (qData.correctAnswer || qData.options[qData.correctIndex] || '').trim().toLowerCase();
+                    const isCorrect = (opt.trim().toLowerCase() === correctVal) || (qData.correctIndex === idx);
+                    
+                    if (isCorrect) {
                         optionsDiv.querySelectorAll('button').forEach((b, bIdx) => {
                             b.disabled = true;
                             if (b.innerText.trim().toLowerCase() === correctVal || bIdx === qData.correctIndex) {
                                 b.classList.add('correct');
                             }
                         });
-                        btn.classList.add('incorrect');
 
-                        totalMistakesCount++;
-                        showMistakeFeedback(qData, correctVal);
+                        const earnedPoints = (currentQuestionAttempts === 1) ? 1 : 0.5;
+                        currentQuizScore += earnedPoints;
+
+                        showSuccessPopup();
+                    } else {
+                        if (currentQuestionAttempts === 1) {
+                            currentQuestionAttempts = 2;
+                            btn.classList.add('incorrect');
+                            btn.disabled = true;
+                            totalMistakesCount++;
+                            showFirstMistakeTip(qData, opt);
+                        } else {
+                            optionsDiv.querySelectorAll('button').forEach((b, bIdx) => {
+                                b.disabled = true;
+                                if (b.innerText.trim().toLowerCase() === correctVal || bIdx === qData.correctIndex) {
+                                    b.classList.add('correct');
+                                }
+                            });
+                            btn.classList.add('incorrect');
+
+                            totalMistakesCount++;
+                            showMistakeFeedback(qData, correctVal);
+                        }
                     }
-                }
+                });
+                optionsDiv.appendChild(btn);
             });
-            optionsDiv.appendChild(btn);
-        });
-        inputArea.appendChild(optionsDiv);
+            inputArea.appendChild(optionsDiv);
+        }
     } 
+    // ==========================================
+    // WORD-SCRAMBLE LOGICA
+    // ==========================================
     else if (qData.type === 'word-scramble') {
         let selectedWords = [];
         let availableWords = [...(qData.shuffledWords || [])].sort(() => Math.random() - 0.5);
@@ -424,20 +405,14 @@ function renderQuizStep() {
         availableWords = availableWords.map((w, i) => ({ id: i, word: w }));
         updateScrambleUI();
 
-                checkBtn.onclick = () => {
-    const userSentence = selectedWords.map(i => (i.word || '').trim()).join(' ');
-    
-    // Pak correctSentence, en als die niet bestaat, pak dan correctAnswer als reserve!
-    const correctSentence = qData.correctSentence || qData.correctAnswer || '';
-    
-    const cleanUser = normalizeScramble(userSentence);
-    const cleanCorrect = normalizeScramble(correctSentence);
-    
-    // Debug info om te zien wat er vergeleken wordt in je console
-    console.log("Gebruiker gesleept:", cleanUser, "| Juist antwoord:", cleanCorrect);
-
-    // Eén enkele, schone declaratie van isCorrect
-    const isCorrect = (cleanUser === cleanCorrect);
+        checkBtn.onclick = () => {
+            const userSentence = selectedWords.map(i => (i.word || '').trim()).join(' ');
+            const correctSentence = qData.correctSentence || qData.correctAnswer || '';
+            
+            const cleanUser = normalizeScramble(userSentence);
+            const cleanCorrect = normalizeScramble(correctSentence);
+            
+            const isCorrect = (cleanUser === cleanCorrect);
 
             if (isCorrect) {
                 checkBtn.disabled = true;
@@ -457,8 +432,10 @@ function renderQuizStep() {
                 }
             }
         };
-
     } 
+    // ==========================================
+    // STANDAARD TYP- / SPREEKVRAGEN
+    // ==========================================
     else {
         if (qData.type === 'speaking') {
             const micNotice = document.createElement('div');
@@ -523,17 +500,14 @@ function renderQuizStep() {
         submitBtn.innerText = 'Controleer antwoord';
         
         submitBtn.addEventListener('click', () => {
-            
-const val = inputField.value;
-let validAnswers = [];
-if (Array.isArray(qData.correctAnswers)) {
-    validAnswers = qData.correctAnswers;
-} else if (qData.correctAnswer) {
-    validAnswers = [qData.correctAnswer];
-}
-const isCorrect = validAnswers.some(correct => normalizeSentence(val) === normalizeSentence(correct));
-
-
+            const val = inputField.value;
+            let validAnswers = [];
+            if (Array.isArray(qData.correctAnswers)) {
+                validAnswers = qData.correctAnswers;
+            } else if (qData.correctAnswer) {
+                validAnswers = [qData.correctAnswer];
+            }
+            const isCorrect = validAnswers.some(correct => normalizeSentence(val) === normalizeSentence(correct));
 
             if (isCorrect) {
                 submitBtn.disabled = true;
@@ -646,7 +620,7 @@ function finishQuiz() {
             <button id="finish-back-btn" class="btn-secondary-outline" style="width: 100%;">Terug naar het pad</button>
         `;
         document.getElementById('retry-lesson-btn').onclick = () => startQuizSession(currentLessonData);
-        document.getElementById('finish-back-btn').onclick = () => { renderLearningPath(); switchTab('path'); };
+        document.getElementById('finish-back-btn').onclick = () => { if (typeof renderLearningPath === 'function') renderLearningPath(); if (typeof switchTab === 'function') switchTab('path'); };
         return;
     }
 
@@ -665,23 +639,13 @@ function finishQuiz() {
     }
 
     const lessonIdToSave = currentLessonData?.id || window.currentLessonId;
-recordLessonCompletion(lessonIdToSave, percentage);
+    
+    // Alleen recordLessonCompletion aanroepen; deze regelt puntenopbouw en cloud-sync via storage.js feilloos zonder dubbeltelling!
+    if (typeof recordLessonCompletion === 'function') {
+        recordLessonCompletion(lessonIdToSave, percentage);
+    }
 
-
-// --- NIEUWE CODE START ---
-let currentData = typeof getStoredData === 'function' ? getStoredData() : { points: 0 };
-currentData.points = (currentData.points || 0) + Math.round(percentage / 10);
-if (typeof saveStoredData === 'function') {
-    saveStoredData(currentData);
-}
-
-if (typeof updateHeaderStats === 'function') {
-    updateHeaderStats();
-}
-// --- NIEUWE CODE EIND ---
-
-triggerFullscreenConfetti();
-
+    triggerFullscreenConfetti();
 
     box.innerHTML = `
         <h2 style="color: var(--success); margin-bottom: 0.3rem;">Les Gehaald! 🎉</h2>
@@ -691,17 +655,21 @@ triggerFullscreenConfetti();
     `;
     
     document.getElementById('finish-back-btn').onclick = () => {
-        renderLearningPath();
-        switchTab('path');
+        if (typeof renderLearningPath === 'function') renderLearningPath();
+        if (typeof switchTab === 'function') switchTab('path');
     };
+}
+
+function quitQuiz() {
+    if (typeof renderLearningPath === 'function') renderLearningPath();
+    if (typeof switchTab === 'function') switchTab('path');
 }
 
 // Helper om de skills data van het actieve niveau op te halen
 function getActiveSkillData(skillType) {
-    const level = (window.currentLevel || 'a1').toUpperCase(); // A1, A2, etc.
-    const varName = `skill${skillType}${level}`; // bijv. skillLeesvaardigheidA1 of skillLeesvaardigheidA2
+    const level = (window.currentLevel || 'a1').toUpperCase();
+    const varName = `skill${skillType}${level}`;
     
-    // Probeer de specifieke niveau-variabele te pakken, anders fallback via window.a2Skills / window.a1Skills
     if (window[varName] && Array.isArray(window[varName])) {
         return window[varName];
     }
@@ -736,7 +704,7 @@ function renderLeesvaardigheidLessen() {
     }
 
     data.forEach((les, index) => {
-        const titleText = les.title.includes(': ') ? les.title.split(': ')[1] : les.title;
+        const titleText = les.title && les.title.includes(': ') ? les.title.split(': ')[1] : (les.title || 'Naamloze les');
         html += `
             <div class="skill-card" style="cursor: pointer; text-align: left;" onclick='startRandomLeesLes(${index})'>
                 <div class="skill-icon">📄</div>
@@ -750,315 +718,4 @@ function renderLeesvaardigheidLessen() {
     });
 
     container.innerHTML = html;
-}
-
-function startRandomLeesLes(index) {
-    const data = getActiveSkillData('Leesvaardigheid');
-    const origineleLes = data[index];
-    if (!origineleLes) return;
-
-    let lesCopy = { ...origineleLes };
-    const rawQuizzes = origineleLes.quizzes || origineleLes.questions || [];
-    lesCopy.quizzes = [...rawQuizzes].sort(() => Math.random() - 0.5).slice(0, 5);
-    startQuizSession(lesCopy);
-}
-
-function renderGrammaticaLessen() {
-    const container = document.getElementById('skills-container');
-    if (!container) return;
-
-    const level = (window.currentLevel || 'a1').toUpperCase();
-    const data = getActiveSkillData('Grammatica');
-
-    let html = `
-        <div style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
-            <button onclick="switchTab('skills')" class="btn-secondary-outline" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;">← Terug naar Skills</button>
-            <h2 style="color: var(--primary); margin-bottom: 0.2rem;">⚙️ Grammatica ${level}</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Kies een les om te beginnen met oefenen:</p>
-        </div>
-    `;
-
-    if (data.length === 0) {
-        html += `<p>Geen grammaticalessen beschikbaar voor niveau ${level}.</p>`;
-        container.innerHTML = html;
-        return;
-    }
-
-    data.forEach((les, index) => {
-        const titleText = les.title.includes(': ') ? les.title.split(': ')[1] : les.title;
-        html += `
-            <div class="skill-card" style="cursor: pointer; text-align: left;" onclick='startRandomGrammaticaLes(${index})'>
-                <div class="skill-icon">⚙️</div>
-                <div class="skill-info">
-                    <span class="skill-category">Grammatica ${index + 1}</span>
-                    <h3>${titleText}</h3>
-                    <p>${les.description || ''}</p>
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-function startRandomGrammaticaLes(index) {
-    const data = getActiveSkillData('Grammatica');
-    const origineleLes = data[index];
-    if (!origineleLes) return;
-
-    let lesCopy = { ...origineleLes };
-    const rawQuizzes = origineleLes.quizzes || origineleLes.questions || [];
-    lesCopy.quizzes = [...rawQuizzes].sort(() => Math.random() - 0.5).slice(0, 10);
-    startQuizSession(lesCopy);
-}
-
-function renderLuistervaardigheidLessen() {
-    const container = document.getElementById('skills-container');
-    if (!container) return;
-
-    const level = (window.currentLevel || 'a1').toUpperCase();
-    const data = getActiveSkillData('Luisteren');
-
-    let html = `
-        <div style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
-            <button onclick="switchTab('skills')" class="btn-secondary-outline" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;">← Terug naar Skills</button>
-            <h2 style="color: var(--primary); margin-bottom: 0.2rem;">🎧 Luistervaardigheid ${level}</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Kies een luisterles om je gehoor te trainen:</p>
-        </div>
-    `;
-
-    if (data.length === 0) {
-        html += `<p>Geen luisterlessen beschikbaar voor niveau ${level}.</p>`;
-        container.innerHTML = html;
-        return;
-    }
-
-    data.forEach((les, index) => {
-        const titleText = les.title.includes(': ') ? les.title.split(': ')[1] : les.title;
-        html += `
-            <div class="skill-card" style="cursor: pointer; text-align: left;" onclick='startRandomLuisterLes(${index})'>
-                <div class="skill-icon">🎧</div>
-                <div class="skill-info">
-                    <span class="skill-category">Les ${index + 1}</span>
-                    <h3>${titleText}</h3>
-                    <p>${les.description || ''}</p>
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-function startRandomLuisterLes(index) {
-    const data = getActiveSkillData('Luisteren');
-    const origineleLes = data[index];
-    if (!origineleLes) return;
-
-    let lesCopy = { ...origineleLes };
-    const rawQuizzes = origineleLes.quizzes || origineleLes.questions || [];
-    lesCopy.quizzes = [...rawQuizzes].sort(() => Math.random() - 0.5).slice(0, 10);
-    startQuizSession(lesCopy);
-}
-
-function renderSchrijfvaardigheidLessen() {
-    const container = document.getElementById('skills-container');
-    if (!container) return;
-
-    const level = (window.currentLevel || 'a1').toUpperCase();
-    const data = getActiveSkillData('Schrijfvaardigheid');
-
-    let html = `
-        <div style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
-            <button onclick="renderSkillsTab()" class="btn-secondary-outline" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;">← Terug naar Skills</button>
-            <h2 style="color: var(--primary); margin-bottom: 0.2rem;">✍️ Schrijfvaardigheid ${level}</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Kies een les om te beginnen met schrijven:</p>
-        </div>
-    `;
-
-    if (data.length === 0) {
-        html += `<p>Geen schrijflessen beschikbaar voor niveau ${level}.</p>`;
-        container.innerHTML = html;
-        return;
-    }
-
-    data.forEach((les, index) => {
-        const titleText = les.title ? (les.title.includes(': ') ? les.title.split(': ')[1] : les.title) : `Les ${index + 1}`;
-        html += `
-            <div class="skill-card" style="cursor: pointer; text-align: left;" onclick="startRandomSchrijfLes(${index})">
-                <div class="skill-icon">✍️</div>
-                <div class="skill-info">
-                    <span class="skill-category">Les ${index + 1}</span>
-                    <h3>${titleText}</h3>
-                    <p>${les.description || ''}</p>
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-function startRandomSchrijfLes(index) {
-    const data = getActiveSkillData('Schrijfvaardigheid');
-    const origineleLes = data[index];
-    if (!origineleLes) return;
-
-    let lesCopy = { ...origineleLes };
-    const rawQuizzes = origineleLes.quizzes || origineleLes.questionBank || [];
-    lesCopy.quizzes = [...rawQuizzes].sort(() => Math.random() - 0.5).slice(0, 5);
-    startQuizSession(lesCopy);
-}
-
-function renderSkillsTab() {
-    const container = document.getElementById('skills-container');
-    if (!container) return;
-
-    container.innerHTML = `
-        <div class="skill-card" onclick="renderLeesvaardigheidLessen()">
-            <div class="skill-icon">📖</div>
-            <div class="skill-info">
-                <span class="skill-category">Lezen</span>
-                <h3>Leesvaardigheid</h3>
-                <p>Oefen met het begrijpen van korte Spaanse teksten, bordjes en berichten.</p>
-            </div>
-        </div>
-
-        <div class="skill-card" onclick="renderGrammaticaLessen()">
-            <div class="skill-icon">📝</div>
-            <div class="skill-info">
-                <span class="skill-category">Regels</span>
-                <h3>Grammatica</h3>
-                <p>Oefen met werkwoordsvervoegingen en correcte zinsstructuur.</p>
-            </div>
-        </div>
-
-        <div class="skill-card" onclick="renderLuistervaardigheidLessen()">
-            <div class="skill-icon">🎧</div>
-            <div class="skill-info">
-                <span class="skill-category">Luisteren</span>
-                <h3>Luistervaardigheid</h3>
-                <p>Train je gehoor met Spaanse uitspraak en luisteroefeningen.</p>
-            </div>
-        </div>
-
-        
-        <div class="skill-card" onclick="renderSchrijfvaardigheidLessen()">
-            <div class="skill-icon">✍️</div>
-            <div class="skill-info">
-                <span class="skill-category">Schrijven</span>
-                <h3>Schrijfvaardigheid</h3>
-                <p>Oefen met het schrijven van Spaanse zinnen en berichten.</p>
-            </div>
-        </div>
-
-        <div class="skill-card" onclick="alert('Binnenkort beschikbaar!')">
-            <div class="skill-icon">🗣️</div>
-            <div class="skill-info">
-                <span class="skill-category">Spreken</span>
-                <h3>Spreekvaardigheid</h3>
-                <p>Oefen je Spaanse uitspraak en spreekoefeningen.</p>
-            </div>
-        </div>
-    `;
-}
-
-function renderSchrijfvaardigheidLessen() {
-    const container = document.getElementById('skills-container');
-    if (!container) return;
-
-    // Check of de dataset bestaat
-    if (!window.skillSchrijfvaardigheidA1 || window.skillSchrijfvaardigheidA1.length === 0) {
-        alert("Fout: skillSchrijfvaardigheidA1 is niet gevonden of is leeg. Controleer of de JS-datafile geladen is in index.html!");
-        return;
-    }
-
-    let html = `
-        <div style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
-            <button onclick="renderSkillsTab()" class="btn-secondary-outline" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;">← Terug naar Skills</button>
-            <h2 style="color: var(--primary); margin-bottom: 0.2rem;">✍️ Schrijfvaardigheid A1</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Kies een les om te beginnen met schrijven (elke keer 5 willekeurige vragen):</p>
-        </div>
-    `;
-
-    window.skillSchrijfvaardigheidA1.forEach((les, index) => {
-        const lesTitel = les.title ? (les.title.split(': ')[1] || les.title) : `Les ${index + 1}`;
-        html += `
-            <div class="skill-card" style="cursor: pointer; text-align: left;" onclick="startRandomSchrijfLes(${index})">
-                <div class="skill-icon">✍️</div>
-                <div class="skill-info">
-                    <span class="skill-category">Les ${index + 1}</span>
-                    <h3>${lesTitel}</h3>
-                    <p>${les.description || ''}</p>
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-function startRandomSchrijfLes(index) {
-    if (!window.skillSchrijfvaardigheidA1 || !window.skillSchrijfvaardigheidA1[index]) return;
-    
-    const origineleLes = window.skillSchrijfvaardigheidA1[index];
-    let lesCopy = { ...origineleLes };
-    
-    // Pakt willekeurig 5 vragen
-    const quizzes = origineleLes.quizzes || origineleLes.questionBank || [];
-    lesCopy.quizzes = [...quizzes].sort(() => Math.random() - 0.5).slice(0, 5);
-    
-    startQuizSession(lesCopy);
-}
-
-
-
-function renderLuistervaardigheidLessen() {
-    const container = document.getElementById('skills-container');
-    if (!container) return;
-
-    let html = `
-        <div style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
-            <button onclick="switchTab('skills');" class="btn-secondary-outline" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;">← Terug naar Skills</button>
-            <h2 style="color: var(--primary); margin-bottom: 0.2rem;">🎧 Luistervaardigheid A1</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Kies een luisterles om je gehoor te trainen:</p>
-        </div>
-    `;
-
-    window.skillLuisterenA1.forEach((les, index) => {
-        html += `
-            <div class="skill-card" style="cursor: pointer; text-align: left;" onclick='startRandomLuisterLes(${index})'>
-                <div class="skill-icon">🎧</div>
-                <div class="skill-info">
-                    <span class="skill-category">Les ${index + 1}</span>
-                    <h3>${les.title.split(': ')[1]}</h3>
-                    <p>${les.description}</p>
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-function startRandomLuisterLes(index) {
-    const origineleLes = window.skillLuisterenA1[index];
-    let lesCopy = { ...origineleLes };
-    
-    // Pakt willekeurig 10 vragen uit de pool van 25
-    lesCopy.quizzes = [...origineleLes.quizzes].sort(() => Math.random() - 0.5).slice(0, 10);
-    
-    startQuizSession(lesCopy);
-}
-
-function quitQuiz() {
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-    }
-    const popup = document.querySelector('div[style*="position: fixed"]');
-    if (popup) popup.remove();
-
-    if (typeof switchTab === 'function') {
-        switchTab('path');
-    }
 }
