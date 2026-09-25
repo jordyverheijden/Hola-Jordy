@@ -12,27 +12,26 @@ window.LESSONS_DATA.push(
     isOptional: false,
     points: 40,
     vocabulary: [
-  { es: "El agua", nl: "Het water", example: "Bebo agua fría." },
-  { es: "El café", nl: "De koffie", example: "Un café con leche, por favor." },
-  { es: "El pan", nl: "Het brood", example: "Compro pan fresco." },
-  { es: "La fruta", nl: "Het fruit", example: "Como fruta todos los días." },
-  { es: "La manzana", nl: "De appel", example: "La manzana es roja." },
-  { es: "La carne", nl: "Het vlees", example: "No como mucha carne." },
-  { es: "El pescado", nl: "De vis", example: "Comemos pescado los viernes." },
-  { es: "El pollo", nl: "De kip", example: "El pollo al horno está rico." },
-  { es: "La leche", nl: "De melk", example: "Bebo un vaso de leche." },
-  { es: "El zumo / El jugo", nl: "Het sap", example: "Quiero zumo de naranja." },
-  { es: "El queso", nl: "De kaas", example: "El queso manchego es delicioso." },
-  { es: "El huevo", nl: "Het ei", example: "Desayuno un huevo frito." },
-  { es: "El arroz", nl: "De rijst", example: "Comemos arroz con pollo." },
-  { es: "La patata / La papa", nl: "De aardappel", example: "Compro patatas para la cena." },
-  { es: "La verdura", nl: "De groente", example: "Es importante comer verdura." },
-  { es: "El té", nl: "De thee", example: "Prefiero té con limón." },
-  { es: "El vino", nl: "De wijn", example: "Una copa de vino tinto, por favor." },
-  { es: "La cerveza", nl: "Het bier", example: "Una cerveza fría en verano es perfecta." },
-  { es: "El azúcar", nl: "De suiker", example: "No pongo azúcar en el café." }
-]
-,
+      { es: "El agua", nl: "Het water", example: "Bebo agua fría." },
+      { es: "El café", nl: "De koffie", example: "Un café con leche, por favor." },
+      { es: "El pan", nl: "Het brood", example: "Compro pan fresco." },
+      { es: "La fruta", nl: "Het fruit", example: "Como fruta todos los días." },
+      { es: "La manzana", nl: "De appel", example: "La manzana es roja." },
+      { es: "La carne", nl: "Het vlees", example: "No como mucha carne." },
+      { es: "El pescado", nl: "De vis", example: "Comemos pescado los viernes." },
+      { es: "El pollo", nl: "De kip", example: "El pollo al horno está rico." },
+      { es: "La leche", nl: "De melk", example: "Bebo un vaso de leche." },
+      { es: "El zumo / El jugo", nl: "Het sap", example: "Quiero zumo de naranja." },
+      { es: "El queso", nl: "De kaas", example: "El queso manchego es delicioso." },
+      { es: "El huevo", nl: "Het ei", example: "Desayuno un huevo frito." },
+      { es: "El arroz", nl: "De rijst", example: "Comemos arroz con pollo." },
+      { es: "La patata / La papa", nl: "De aardappel", example: "Compro patatas para la cena." },
+      { es: "La verdura", nl: "De groente", example: "Es importante comer verdura." },
+      { es: "El té", nl: "De thee", example: "Prefiero té con limón." },
+      { es: "El vino", nl: "De wijn", example: "Una copa de vino tinto, por favor." },
+      { es: "La cerveza", nl: "Het bier", example: "Una cerveza fría en verano es perfecta." },
+      { es: "El azúcar", nl: "De suiker", example: "No pongo azúcar en el café." }
+    ],
     cheatsheet: `
       <h4>De werkwoorden COMER (eten) en BEBER (drinken)</h4>
       <p>Dit zijn regelmatige -er werkwoorden:</p>
@@ -106,27 +105,26 @@ window.LESSONS_DATA.push(
     isOptional: false,
     points: 40,
     vocabulary: [
-  { es: "El restaurante", nl: "Het restaurant", example: "Cenamos en el restaurante." },
-  { es: "El camarero / La camarera", nl: "De ober / serveerster", example: "El camarero trae la carta." },
-  { es: "La carta / El menú", nl: "De menukaart", example: "Por favor, la carta." },
-  { es: "La cuenta", nl: "De rekening", example: "La cuenta, por favor." },
-  { es: "Delicioso / Rico", nl: "Heerlijk / Lekker", example: "La comida está deliciosa." },
-  { es: "Quisiera / Me gustaría", nl: "Ik zou graag willen", example: "Quisiera un café." },
-  { es: "El desayuno", nl: "Het ontbijt", example: "El desayuno está incluido." },
-  { es: "El almuerzo / La comida", nl: "De lunch / het middageten", example: "Almuerzo a las dos de la tarde." },
-  { es: "La cena", nl: "Het avondeten", example: "Cenamos tarde en España." },
-  { es: "El postre", nl: "Het nagerecht / dessert", example: "De postre quiero flan." },
-  { es: "La propina", nl: "De fooi", example: "Dejamos una buena propina." },
-  { es: "El vaso", nl: "Het glas", example: "Un vaso de agua, por favor." },
-  { es: "La taza", nl: "De kop / mok", example: "Una taza de café con leche." },
-  { es: "El plato", nl: "Het bord / gerecht", example: "El primer plato es sopa." },
-  { es: "El tenedor", nl: "De vork", example: "Necesito un tenedor." },
-  { es: "El cuchillo", nl: "Het mes", example: "Corto la carne con el cuchillo." },
-  { es: "La cuchara", nl: "De lepel", example: "Como la sopa con la cuchara." },
-  { es: "Caliente", nl: "Heet / warm", example: "La sopa está muy caliente." },
-  { es: "Sal y pimienta", nl: "Zout en peper", example: "Un poco de sal y pimienta." }
-]
-,
+      { es: "El restaurante", nl: "Het restaurant", example: "Cenamos en el restaurante." },
+      { es: "El camarero / La camarera", nl: "De ober / serveerster", example: "El camarero trae la carta." },
+      { es: "La carta / El menú", nl: "De menukaart", example: "Por favor, la carta." },
+      { es: "La cuenta", nl: "De rekening", example: "La cuenta, por favor." },
+      { es: "Delicioso / Rico", nl: "Heerlijk / Lekker", example: "La comida está deliciosa." },
+      { es: "Quisiera / Me gustaría", nl: "Ik zou graag willen", example: "Quisiera un café." },
+      { es: "El desayuno", nl: "Het ontbijt", example: "El desayuno está incluido." },
+      { es: "El almuerzo / La comida", nl: "De lunch / het middageten", example: "Almuerzo a las dos de la tarde." },
+      { es: "La cena", nl: "Het avondeten", example: "Cenamos tarde en España." },
+      { es: "El postre", nl: "Het nagerecht / dessert", example: "De postre quiero flan." },
+      { es: "La propina", nl: "De fooi", example: "Dejamos una buena propina." },
+      { es: "El vaso", nl: "Het glas", example: "Un vaso de agua, por favor." },
+      { es: "La taza", nl: "De kop / mok", example: "Una taza de café con leche." },
+      { es: "El plato", nl: "Het bord / gerecht", example: "El primer plato es sopa." },
+      { es: "El tenedor", nl: "De vork", example: "Necesito un tenedor." },
+      { es: "El cuchillo", nl: "Het mes", example: "Corto la carne con el cuchillo." },
+      { es: "La cuchara", nl: "De lepel", example: "Como la sopa con la cuchara." },
+      { es: "Caliente", nl: "Heet / warm", example: "La sopa está muy caliente." },
+      { es: "Sal y pimienta", nl: "Zout en peper", example: "Un poco de sal y pimienta." }
+    ],
     cheatsheet: `
       <h4>Bestellen in het restaurant</h4>
       <p>Handige zinnen:</p>
@@ -185,7 +183,7 @@ window.LESSONS_DATA.push(
       { type: "input", question: "Vertaal: 'Zout en peper'", correctAnswer: "Sal y pimienta" }
     ]
   },
-    {
+  {
     id: "a1_m7_eindtoets",
     chapterTitle: "Module 7: Eten, Drinken & Restaurant",
     title: "🏆 Eindtoets Module 7",
@@ -208,7 +206,6 @@ window.LESSONS_DATA.push(
       return allQuestions.slice(0, 15);
     }
   },
-  
 
   /* =========================================================================
      MODULE 8: Reizen, Vakantie & Vrije Tijd (50+ Vragenbank)
@@ -221,25 +218,24 @@ window.LESSONS_DATA.push(
     isOptional: false,
     points: 40,
     vocabulary: [
-  { es: "Las vacaciones", nl: "De vakantie", example: "Me encantan las vacaciones." },
-  { es: "La reserva", nl: "De reservering", example: "Tengo una reserva a nombre de Juan." },
-  { es: "La habitación individual", nl: "De eenpersoonskamer", example: "Una habitación individual, por favor." },
-  { es: "La habitación doble", nl: "De tweepersoonskamer", example: "Prefiero una habitación doble." },
-  { es: "La llave", nl: "De sleutel", example: "Aquí tiene la llave de su habitación." },
-  { es: "La playa", nl: "Het strand", example: "Vamos a la playa en verano." },
-  { es: "La montaña", nl: "De berg", example: "Nos gusta caminar por la montaña." },
-  { es: "La piscina", nl: "Het zwembad", example: "El hotel tiene una piscina grande." },
-  { es: "El mar", nl: "De zee", example: "El agua del mar está fría." },
-  { es: "El pasaporte", nl: "Het paspoort", example: "Necesito mi pasaporte para viajar." },
-  { es: "La maleta / El equipaje", nl: "De koffer / bagage", example: "Llevo dos maletas." },
-  { es: "El turista / La turista", nl: "De toerist", example: "Hay muchos turistas en la ciudad." },
-  { es: "La recepción", nl: "De receptie", example: "Pregunto en la recepción." },
-  { es: "Descansar", nl: "Rusten / uitrusten", example: "Quiero descansar en la playa." },
-  { es: "La vista", nl: "Het uitzicht", example: "La habitación tiene vista al mar." },
-  { es: "Incluido", nl: "Inbegrepen", example: "El desayuno está incluido." },
-  { es: "El norte / sur / este / oeste", nl: "Noord / zuid / oost / west", example: "Vivimos en el sur de España." }
-]
-,
+      { es: "Las vacaciones", nl: "De vakantie", example: "Me encantan las vacaciones." },
+      { es: "La reserva", nl: "De reservering", example: "Tengo una reserva a nombre de Juan." },
+      { es: "La habitación individual", nl: "De eenpersoonskamer", example: "Una habitación individual, por favor." },
+      { es: "La habitación doble", nl: "De tweepersoonskamer", example: "Prefiero una habitación doble." },
+      { es: "La llave", nl: "De sleutel", example: "Aquí tiene la llave de su habitación." },
+      { es: "La playa", nl: "Het strand", example: "Vamos a la playa en verano." },
+      { es: "La montaña", nl: "De berg", example: "Nos gusta caminar por la montaña." },
+      { es: "La piscina", nl: "Het zwembad", example: "El hotel tiene una piscina grande." },
+      { es: "El mar", nl: "De zee", example: "El agua del mar está fría." },
+      { es: "El pasaporte", nl: "Het paspoort", example: "Necesito mi pasaporte para viajar." },
+      { es: "La maleta / El equipaje", nl: "De koffer / bagage", example: "Llevo dos maletas." },
+      { es: "El turista / La turista", nl: "De toerist", example: "Hay muchos turistas en la ciudad." },
+      { es: "La recepción", nl: "De receptie", example: "Pregunto en la recepción." },
+      { es: "Descansar", nl: "Rusten / uitrusten", example: "Quiero descansar en la playa." },
+      { es: "La vista", nl: "Het uitzicht", example: "La habitación tiene vista al mar." },
+      { es: "Incluido", nl: "Inbegrepen", example: "El desayuno está incluido." },
+      { es: "El norte / sur / este / oeste", nl: "Noord / zuid / oost / west", example: "Vivimos en el sur de España." }
+    ],
     cheatsheet: `
       <h4>In het hotel inchecken</h4>
       <p>Handige zinnen bij de receptie:</p>
@@ -308,26 +304,25 @@ window.LESSONS_DATA.push(
     isOptional: false,
     points: 40,
     vocabulary: [
-  { es: "El tiempo libre", nl: "De vrije tijd", example: "En mi tiempo libre leo libros." },
-  { es: "El deporte", nl: "De sport", example: "Hago deporte todos los días." },
-  { es: "Jugar", nl: "Spelen / sporten (met bal)", example: "Juego al fútbol con amigos." },
-  { es: "Hacer", nl: "Doen / maken", example: "Hago fotos en la playa." },
-  { es: "Leer", nl: "Lezen", example: "Me gusta leer novelas." },
-  { es: "Escuchar música", nl: "Naar muziek luisteren", example: "Escucho música pop." },
-  { es: "El fútbol", nl: "Voetbal", example: "El fútbol es muy popular." },
-  { es: "El tenis", nl: "Tennis", example: "Juego al tenis los sábados." },
-  { es: "El cine", nl: "De bioscoop", example: "Vamos al cine esta noche." },
-  { es: "La película", nl: "De film", example: "La película es muy interesante." },
-  { es: "Bailar", nl: "Dansen", example: "Me encanta bailar flamenco." },
-  { es: "Cantar", nl: "Zingen", example: "Le gusta cantar en la ducha." },
-  { es: "Nadar", nl: "Zwemmen", example: "Nado en la piscina del hotel." },
-  { es: "Correr", nl: "Rennen / hardlopen", example: "Corro por el parque por la mañana." },
-  { es: "Pintar", nl: "Schilderen", example: "Mi abuela pinta cuadros bonitos." },
-  { es: "Sacar fotos", nl: "Foto's maken", example: "Saco fotos durante el viaje." },
-  { es: "El libro", nl: "Het boek", example: "Leo un libro de misterio." },
-  { es: "Interesante", nl: "Interessant", example: "Es un libro muy interesante." }
-]
-,
+      { es: "El tiempo libre", nl: "De vrije tijd", example: "En mi tiempo libre leo libros." },
+      { es: "El deporte", nl: "De sport", example: "Hago deporte todos los días." },
+      { es: "Jugar", nl: "Spelen / sporten (met bal)", example: "Juego al fútbol con amigos." },
+      { es: "Hacer", nl: "Doen / maken", example: "Hago fotos en la playa." },
+      { es: "Leer", nl: "Lezen", example: "Me gusta leer novelas." },
+      { es: "Escuchar música", nl: "Naar muziek luisteren", example: "Escucho música pop." },
+      { es: "El fútbol", nl: "Voetbal", example: "El fútbol es muy popular." },
+      { es: "El tenis", nl: "Tennis", example: "Juego al tenis los sábados." },
+      { es: "El cine", nl: "De bioscoop", example: "Vamos al cine esta noche." },
+      { es: "La película", nl: "De film", example: "La película es muy interesante." },
+      { es: "Bailar", nl: "Dansen", example: "Me encanta bailar flamenco." },
+      { es: "Cantar", nl: "Zingen", example: "Le gusta cantar en la ducha." },
+      { es: "Nadar", nl: "Zwemmen", example: "Nado en la piscina del hotel." },
+      { es: "Correr", nl: "Rennen / hardlopen", example: "Corro por el parque por la mañana." },
+      { es: "Pintar", nl: "Schilderen", example: "Mi abuela pinta cuadros bonitos." },
+      { es: "Sacar fotos", nl: "Foto's maken", example: "Saco fotos durante el viaje." },
+      { es: "El libro", nl: "Het boek", example: "Leo un libro de misterio." },
+      { es: "Interesante", nl: "Interessant", example: "Es un libro muy interesante." }
+    ],
     cheatsheet: `
       <h4>Hobby's en Vrije Tijd</h4>
       <p>Om te zeggen wat je leuk vindt om te doen gebruik je vaak <b>'Me gusta + heel werkwoord'</b> (Ik vind het leuk om...).</p>
