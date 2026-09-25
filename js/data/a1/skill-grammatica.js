@@ -95,7 +95,7 @@ window.skillGrammaticaA1 = [
             <ul>
                 <li>Yo <strong>quiero</strong> (Ik wil)</li>
                 <li>Tú <strong>quieres</strong> (Jij wilt)</li>
-                <li>Él / Ella / Usted <strong>quiere</strong> (Hij / zij / u wilt)</li>
+                <li>Él / Ella / Usted <strong>quiere</strong> (Hij / zij wil / u wilt)</li>
                 <li>Nosotros <strong>queremos</strong> (Wij willen)</li>
                 <li>Vosotros <strong>queréis</strong> (Jullie willen)</li>
                 <li>Ellos / Ellas / Ustedes <strong>quieren</strong> (Zij willen)</li>
@@ -152,12 +152,12 @@ window.skillGrammaticaA1 = [
             { type: 'multiple-choice', question: 'Wat betekent "mis hermanos"?', options: ['mijn broer', 'mijn broers / broers en zussen', 'jouw broer', 'onze broer'], answer: 'mijn broers / broers en zussen' },
             { type: 'multiple-choice', question: 'Kies de correcte vertaling voor "zijn auto":', options: ['mi coche', 'tu coche', 'su coche', 'nuestro coche'], answer: 'su coche' },
             { type: 'multiple-choice', question: 'Welk woord vult de zin correct aan?\n"¿Dónde están [ ... ] llaves? (jouw sleutels - meervoud)"', options: ['tu', 'tus', 'mis', 'sus'], answer: 'tus' },
-            { type: 'multiple-choice', question: 'Wat is de juiste vorm voor "ons huis"?', options: ['nuestro casa', 'nuestra casa', 'nuestros casas', 'nuestras casa'], answer: 'nuestra casa' },
+            { type: 'multiple-choice', question: 'Wat is de juiste vorm voor "ons huis"?', options: ['nuestro casa', 'nuestra casa', 'nuestros casas', 'nuestras casas'], answer: 'nuestra casa' },
             { type: 'multiple-choice', question: 'Kies de juiste optie:\n"Ellos buscan a [ ... ] amigos."', options: ['su', 'sus', 'mi', 'tu'], answer: 'sus' },
             { type: 'multiple-choice', question: 'Kies de juiste vorm voor "jullie familie" (in Spanje):', options: ['vuestro familia', 'vuestra familia', 'vuestros familia', 'vuestras familia'], answer: 'vuestra familia' },
             { type: 'multiple-choice', question: 'Wat betekent "su libro" in het Spaans?', options: ['Mijn boek', 'Jouw boek', 'Zijn / haar / uw boek', 'Ons boek'], answer: 'Zijn / haar / uw boek' },
             { type: 'multiple-choice', question: 'Kies de correcte zin:\n"Tengo [ ... ] perro en casa (mijn hond)."', options: ['mi', 'mis', 'tu', 'su'], answer: 'mi' },
-            { type: 'multiple-choice', question: 'Kies de juiste meervoudsvorm:\n"¿Dónde están [ ... ] gafas? (jouw bril - let op: glazen is meervoud in het Spaans)"', options: ['tu', 'tus', 'mi', 'mis'], answer: 'tus' },
+            { type: 'multiple-choice', question: 'Kies de juiste meervoudsvorm:\n"¿Dónde están [ ... ] gafas? (jouw bril - let op: een bril/gafas is meervoud in het Spaans)"', options: ['tu', 'tus', 'mi', 'mis'], answer: 'tus' },
             { type: 'multiple-choice', question: 'Vertaal "onze vrienden":', options: ['nuestro amigo', 'nuestra amiga', 'nuestros amigos', 'nuestras amigas'], answer: 'nuestros amigos' },
             { type: 'multiple-choice', question: 'Welk bezittelijk voornaamwoord hoort bij "yo"?', options: ['mi / mis', 'tu / tus', 'su / sus', 'nuestro / nuestra'], answer: 'mi / mis' },
             { type: 'multiple-choice', question: 'Welk bezittelijk voornaamwoord hoort bij "tú"?', options: ['mi / mis', 'tu / tus', 'su / sus', 'vuestro / vuestra'], answer: 'tu / tus' },
@@ -244,7 +244,7 @@ window.skillGrammaticaA1 = [
             { type: 'multiple-choice', question: 'Kies de juiste vorm bij "vosotros":\n"Vosotros [ ... ] en Madrid."', options: ['sois', 'estáis', 'somos', 'estamos'], answer: 'estáis' },
             { type: 'multiple-choice', question: 'Wat is correct voor het uur/tijdstip?\n"¿Qué hora [ ... ]?" -> "Son las tres."', options: ['es', 'está', 'son', 'están'], answer: 'es' },
             { type: 'multiple-choice', question: 'Kies de juiste optie:\n"Las llaves [ ... ] encima de la mesa."', options: ['son', 'están', 'somos', 'estoy'], answer: 'están' },
-            { type: 'multiple-choice', question: 'Vertaal "wij zijn Nederlands":', options: ['Somos holandeses', 'Estamos holandeses', 'Somos de holanda estar', 'Estamos en holanda'], answer: 'Somos holandeses' },
+            { type: 'multiple-choice', question: 'Vertaal "wij zijn Nederlands":', options: ['Somos holandeses', 'Estamos holandeses', 'Estamos en Holanda', 'Estamos en holanda'], answer: 'Somos holandeses' },
             { type: 'multiple-choice', question: 'Kies de juiste optie:\n"La fiesta [ ... ] en mi casa (vindt plaats / locatie event)."', options: ['es', 'está', 'soy', 'estoy'], answer: 'es' },
             { type: 'multiple-choice', question: 'Wat betekent "estoy enfermo"?', options: ['Ik ben ziek', 'Ik ben arts', 'Ik ben sterk', 'Ik ben moe'], answer: 'Ik ben ziek' },
             { type: 'multiple-choice', question: 'Kies de juiste optie:\n"El café [ ... ] caliente."', options: ['es', 'está', 'somos', 'estoy'], answer: 'está' },
