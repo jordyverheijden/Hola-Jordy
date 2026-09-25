@@ -12,26 +12,25 @@ window.LESSONS_DATA.push(
     isOptional: false,
     points: 40,
     vocabulary: [
-  { es: "Me gusta", nl: "Ik vind ... leuk", example: "Me gusta viajar." },
-  { es: "El tiempo libre", nl: "De vrije tijd", example: "En mi tiempo libre leo." },
-  { es: "Escuchar música", nl: "Naar muziek luisteren", example: "Me gusta escuchar música." },
-  { es: "Practicar deporte", nl: "Sporten", example: "Practico deporte los martes." },
-  { es: "Leer un libro", nl: "Een boek lezen", example: "Me gusta leer un libro en casa." },
-  { es: "Ver la televisión", nl: "Televisie kijken", example: "Por la noche veo la televisión." },
-  { es: "Bailar", nl: "Dansen", example: "Me gusta bailar salsa." },
-  { es: "Cantar", nl: "Zingen", example: "Canta muy bien." },
-  { es: "La naturaleza", nl: "De natuur", example: "Disfruto de la naturaleza." },
-  { es: "Pintar", nl: "Schilderen", example: "Pinta paisajes." },
-  { es: "Cocinar", nl: "Koken", example: "Me gusta cocinar para amigos." },
-  { es: "La fotografía", nl: "De fotografie", example: "La fotografía es mi pasión." },
-  { es: "Nadar", nl: "Zwemmen", example: "Nadamos en el mar." },
-  { es: "Viajar", nl: "Reizen", example: "Viajar abre la mente." },
-  { es: "El cine", nl: "De bioscoop", example: "Vamos al cine los domingos." },
-  { es: "El teatro", nl: "Het theater", example: "Vemos una obra de teatro." },
-  { es: "El concierto", nl: "Het concert", example: "El concierto de rock es genial." },
-  { es: "Jugar", nl: "Spelen", example: "Jugamos a las cartas." }
-]
-,
+      { es: "Me gusta", nl: "Ik vind ... leuk", example: "Me gusta viajar." },
+      { es: "El tiempo libre", nl: "De vrije tijd", example: "En mi tiempo libre leo." },
+      { es: "Escuchar música", nl: "Naar muziek luisteren", example: "Me gusta escuchar música." },
+      { es: "Practicar deporte", nl: "Sporten", example: "Practico deporte los martes." },
+      { es: "Leer un libro", nl: "Een boek lezen", example: "Me gusta leer un libro en casa." },
+      { es: "Ver la televisión", nl: "Televisie kijken", example: "Por la noche veo la televisión." },
+      { es: "Bailar", nl: "Dansen", example: "Me gusta bailar salsa." },
+      { es: "Cantar", nl: "Zingen", example: "Canta muy bien." },
+      { es: "La naturaleza", nl: "De natuur", example: "Disfruto de la naturaleza." },
+      { es: "Pintar", nl: "Schilderen", example: "Pinta paisajes." },
+      { es: "Cocinar", nl: "Koken", example: "Me gusta cocinar para amigos." },
+      { es: "La fotografía", nl: "De fotografie", example: "La fotografía es mi pasión." },
+      { es: "Nadar", nl: "Zwemmen", example: "Nadamos en el mar." },
+      { es: "Viajar", nl: "Reizen", example: "Viajar abre la mente." },
+      { es: "El cine", nl: "De bioscoop", example: "Vamos al cine los domingos." },
+      { es: "El teatro", nl: "Het theater", example: "Vemos una obra de teatro." },
+      { es: "El concierto", nl: "Het concert", example: "El concierto de rock es genial." },
+      { es: "Jugar", nl: "Spelen", example: "Jugamos a las cartas." }
+    ],
     cheatsheet: `
       <h4>Hoe werkt GUSTAR?</h4>
       <p>Je zegt niet letterlijk 'ik vind leuk', maar <i>'het bevalt mij'</i>. Gebruik <b>Me gusta</b> + heel werkwoord (bijv. <i>Me gusta leer</i> = lezen vind ik leuk).</p>
@@ -98,25 +97,24 @@ window.LESSONS_DATA.push(
     isOptional: false,
     points: 40,
     vocabulary: [
-  { es: "Hace sol", nl: "Het is zonnig", example: "Hoy hace sol en Madrid." },
-  { es: "Hace frío / calor", nl: "Het is koud / warm", example: "En invierno hace frío." },
-  { es: "Llueve", nl: "Het regent", example: "No me gusta cuando llueve." },
-  { es: "Nieva", nl: "Het sneeuwt", example: "En la montaña nieva en enero." },
-  { es: "El tiempo", nl: "Het weer / de tijd", example: "¿Qué tiempo hace hoy?" },
-  { es: "La primavera / El verano", nl: "De lente / De zomer", example: "Me encanta el verano." },
-  { es: "El otoño", nl: "De herfst", example: "En otoño caen las hojas." },
-  { es: "El invierno", nl: "De winter", example: "Hace frío en invierno." },
-  { es: "El viento", nl: "De wind", example: "Hace mucho viento hoy." },
-  { es: "El cielo", nl: "De hemel", example: "El cielo está despejado." },
-  { es: "La nube", nl: "De wolk", example: "Hay nubes negras en el cielo." },
-  { es: "Nublado", nl: "Bewolkt", example: "El día está nublado." },
-  { es: "La tormenta", nl: "De storm / onweer", example: "Viene una gran tormenta." },
-  { es: "Buen tiempo / Mal tiempo", nl: "Mooi weer / slecht weer", example: "Tenemos buen tiempo para viajar." },
-  { es: "La temperatura", nl: "De temperatuur", example: "La temperatura es alta." },
-  { es: "Grados", nl: "Graden", example: "Estamos a veinticinco grados." },
-  { es: "El sol", nl: "De zon", example: "El sol brilla fuerte." }
-]
-,
+      { es: "Hace sol", nl: "Het is zonnig", example: "Hoy hace sol en Madrid." },
+      { es: "Hace frío / calor", nl: "Het is koud / warm", example: "En invierno hace frío." },
+      { es: "Llueve", nl: "Het regent", example: "No me gusta cuando llueve." },
+      { es: "Nieva", nl: "Het sneeuwt", example: "En la montaña nieva en enero." },
+      { es: "El tiempo", nl: "Het weer / de tijd", example: "¿Qué tiempo hace hoy?" },
+      { es: "La primavera / El verano", nl: "De lente / De zomer", example: "Me encanta el verano." },
+      { es: "El otoño", nl: "De herfst", example: "En otoño caen las hojas." },
+      { es: "El invierno", nl: "De winter", example: "Hace frío en invierno." },
+      { es: "El viento", nl: "De wind", example: "Hace mucho viento hoy." },
+      { es: "El cielo", nl: "De hemel", example: "El cielo está despejado." },
+      { es: "La nube", nl: "De wolk", example: "Hay nubes negras en el cielo." },
+      { es: "Nublado", nl: "Bewolkt", example: "El día está nublado." },
+      { es: "La tormenta", nl: "De storm / onweer", example: "Viene una gran tormenta." },
+      { es: "Buen tiempo / Mal tiempo", nl: "Mooi weer / slecht weer", example: "Tenemos buen tiempo para viajar." },
+      { es: "La temperatura", nl: "De temperatuur", example: "La temperatura es alta." },
+      { es: "Grados", nl: "Graden", example: "Estamos a veinticinco grados." },
+      { es: "El sol", nl: "De zon", example: "El sol brilla fuerte." }
+    ],
     cheatsheet: `
       <h4>Het weer in het Spaans</h4>
       <p>Om te vertellen wat voor weer het is gebruik je vaak het werkwoord <b>hacer</b> (maken/doen) of losse werkwoorden:</p>
@@ -158,7 +156,7 @@ window.LESSONS_DATA.push(
       { type: "word-scramble", question: "Zet in volgorde: 'Bewolkt'", shuffledWords: ["nublado", "Está"], correctSentence: "Está nublado" },
       { type: "multiple-choice", question: "Wat betekent 'La tormenta'?", options: ["De storm / onweer", "De regen", "De sneeuw", "De wind"], correctIndex: 0 },
       { type: "input", question: "Vertaal: 'De storm'", correctAnswer: "La tormenta" },
-      { type: "multiple-choice", question: "Wat is 'Buen tiempo'?", options: ["Mooi weer", "Slecht weer", "Koud weer", "Heet weer"], correctIndex: 0 },
+      { type: "multiple-choice", question: "What is 'Buen tiempo'?", options: ["Mooi weer", "Slecht weer", "Koud weer", "Heet weer"], correctIndex: 0 },
       { type: "input", question: "Vertaal: 'Mooi weer'", correctAnswer: "Buen tiempo" },
       { type: "word-scramble", question: "Zet in volgorde: 'Mooi weer'", shuffledWords: ["tiempo", "Buen"], correctSentence: "Buen tiempo" },
       { type: "multiple-choice", question: "Wat betekent 'Mal tiempo'?", options: ["Slecht weer", "Mooi weer", "Warm weer", "Fris weer"], correctIndex: 0 },
@@ -202,7 +200,7 @@ window.LESSONS_DATA.push(
   /* =========================================================================
      MODULE 10: Eindexamen A1 (Integrale Vragenbank)
      ========================================================================= */
-    {
+  {
     id: "a1_m10_eindtoets",
     chapterTitle: "Module 10: Eindexamen A1",
     title: "🏆 Eindtoets Module 10 (Eindexamen)",
@@ -216,7 +214,7 @@ window.LESSONS_DATA.push(
     `,
     getDynamicQuestions: function() {
       let modules = ["m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9"];
-      let questionsPerModule = Math.ceil(40 / modules.length); // Verdeelt de 40 vragen evenredig
+      let questionsPerModule = Math.ceil(40 / modules.length);
       let finalQuestions = [];
 
       modules.forEach(mod => {
@@ -226,13 +224,10 @@ window.LESSONS_DATA.push(
             modQuestions = modQuestions.concat(l.questionBank);
           }
         });
-        // Schud de vragen van deze module door elkaar
         modQuestions.sort(() => Math.random() - 0.5);
-        // Pak het berekende aantal vragen eruit en voeg toe aan de lijst
         finalQuestions = finalQuestions.concat(modQuestions.slice(0, questionsPerModule));
       });
 
-      // Schud de uiteindelijke samengestelde lijst nogmaals goed door en snijd precies af op 40 vragen
       finalQuestions.sort(() => Math.random() - 0.5);
       return finalQuestions.slice(0, 40);
     }
