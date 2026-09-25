@@ -159,7 +159,7 @@ window.skillSprekenA1 = [
             { type: 'speaking', question: 'Zeg hardop in het Spaans: "Natuurlijk niet."', targetText: 'Claro que no.', hint: 'Zeg: Claro que no.' },
             { type: 'speaking', question: 'Zeg hardop in het Spaans: "Tot ziens allemaal!"', targetText: '¡Adiós a todos!', hint: 'Zeg: ¡Adiós a todos!' },
             { type: 'speaking', question: 'Zeg hardop in het Spaans: "Het is geweldig."', targetText: 'Es estupendo.', hint: 'Zeg: Es estupendo.' },
-            { type: 'speaking', question: 'Zeg hardop in het Spaans: "Ik heb honger."', targetText: 'Tengo hambre.', hint: 'Zeg: 'Tengo hambre.' },
+            { type: 'speaking', question: 'Zeg hardop in het Spaans: "Ik heb honger."', targetText: 'Tengo hambre.', hint: "Zeg: Tengo hambre." },
             { type: 'speaking', question: 'Zeg hardop in het Spaans: "Ik heb dorst."', targetText: 'Tengo sed.', hint: 'Zeg: Tengo sed.' },
             { type: 'speaking', question: 'Zeg hardop in het Spaans: "Het is koud hier."', targetText: 'Hace frío aquí.', hint: 'Zeg: Hace frío aquí.' },
             { type: 'speaking', question: 'Zeg hardop in het Spaans: "Tot de volgende keer!"', targetText: '¡Hasta la próxima!', hint: 'Zeg: ¡Hasta la próxima!' }
