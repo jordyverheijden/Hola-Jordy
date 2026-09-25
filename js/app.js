@@ -65,8 +65,15 @@ function setupAuthListeners() {
                 initializeApp();
             } else {
                 // Niet ingelogd: Toon inlogscherm, verberg de app container
-                if (loginContainer) loginContainer.style.display = 'flex';
-                if (appContainer) appContainer.style.display = 'none';
+                if (loginContainer) {
+                    loginContainer.style.display = 'flex';
+                } else {
+                    console.warn("Waarschuwing: Element met id 'login-container' is niet gevonden in je HTML!");
+                }
+                
+                if (appContainer) {
+                    appContainer.style.display = 'none';
+                }
             }
         });
     } else {
