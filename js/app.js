@@ -88,3 +88,37 @@ function setupDarkMode() {
         };
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const forgotLink = document.getElementById('forgot-password-link');
+    
+    if (forgotLink) {
+        forgotLink.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('login-email');
+            const email = emailInput ? emailInput.value.trim() : '';
+
+            if (!email) {
+                alert('Vul eerst je e-mailadres in bij het e-mailveld en klik dan op "Wachtwoord vergeten?".');
+                if (emailInput) emailInput.focus();
+                return;
+            }
+
+            try {
+                // Firebase methode om een herstelmail te sturen
+                await firebase.auth().sendPasswordResetEmail(email);
+                alert('Er is een e-mail verzonden om je wachtwoord te resetten. Controleer ook je spamfolder!');
+            } catch (error) {
+                console.error("Fout bij verzenden reset-mail:", error);
+                
+                if (error.code === 'auth/user-not-found') {
+                    alert('Er is geen account bekend met dit e-mailadres.');
+                } else if (error.code === 'auth/invalid-email') {
+                    alert('Het ingevulde e-mailadres is ongeldig.');
+                } else {
+                    alert('Er is iets misgegaan: ' + error.message);
+                }
+            }
+        });
+    }
+});
